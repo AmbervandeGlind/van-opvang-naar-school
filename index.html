@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<!-- EINDONTWERP (ontwerp B): "Vrij kiezen"
+     De landingspagina, overgenomen uit het Figma Make-ontwerp (variant 03 "Vrij kiezen").
+     Het eerdere ontwerp A staat in ontwerp-a.html en is niet veranderd.
+     Beide pagina's gebruiken dezelfde styleguide: tokens.css, fonts.css en base.css.
+     Alleen de opmaak van de secties staat apart, in css/pagina-b.css. -->
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Van opvang naar school | Basisschool De Boomgaard</title>
+  <meta name="description" content="Je kind gaat naar Kinderopvang Pluk? Jij kiest zelf de school. Ontdek wat dezelfde plek, bekende mensen en een warme overdracht betekenen, en kom vrijblijvend kijken.">
+
+  <!-- Eigen lettertypes (geen Google Fonts, zie css/fonts.css) -->
+  <link rel="preload" href="fonts/nunito.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+
+  <!-- Dezelfde styleguide als ontwerp A -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <!-- De opmaak van ontwerp B -->
+  <link rel="stylesheet" href="css/pagina-b.css">
+
+  <!-- Zelfde aanpak als ontwerp A: de class "js" zet de onderdelen aan die JavaScript nodig hebben -->
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/pagina-b.js" defer></script>
+</head>
+<body>
+
+  <a class="skiplink" href="#inhoud">Direct naar de inhoud</a>
+
+  <!-- ================= HEADER + NAVIGATIE ================= -->
+  <!-- Precies dezelfde header als ontwerp A (ontwerp-a.html): de navigatie van de schoolwebsite.
+       De opmaak staat in css/pagina-b.css, het mobiele menu in js/pagina-b.js. -->
+  <header class="kop">
+    <a class="logo-school" href="#" aria-label="Basisschool De Boomgaard, naar de homepage">
+      <!-- Een simpel boompje als logo, getekend met SVG (vormen in code) -->
+      <svg class="logo-school__icoon" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="17.5" y="22" width="5" height="15" rx="2.5" />
+        <circle cx="20" cy="15" r="13" />
+      </svg>
+      <span>
+        <span class="logo-school__klein">Basisschool</span>
+        De Boomgaard
+      </span>
+    </a>
+    <!-- Menuknop, alleen op mobiel en tablet. aria-expanded vertelt schermlezers of het menu
+         open (true) of dicht (false) is. aria-controls wijst naar het menu dat hij opent. -->
+    <button class="kop__menuknop" type="button" aria-expanded="false" aria-controls="hoofdmenu">
+      <svg class="kop__icoon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="kop__icoon-dicht" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      Menu
+    </button>
+    <nav class="kop__nav" id="hoofdmenu" aria-label="Hoofdmenu">
+      <ul>
+        <li><a href="#">Onze school</a></li>
+        <li><a href="#">Onderwijs</a></li>
+        <!-- aria-current="page": in dit deel van de website ben je nu -->
+        <li><a href="#" aria-current="page">Ouders</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="knop knop--klein" href="#kennismaken">Plan een kennismaking</a>
+  </header>
+
+  <main id="inhoud">
+
+    <!-- ================= 1. HERO ================= -->
+    <!-- De kern van dit ontwerp: jij kiest. Geen druk, wel eerlijk laten zien wat het oplevert. -->
+    <section class="hero-keuze" aria-labelledby="hero-titel">
+      <div class="hero-keuze__tekst">
+        <!-- Kruimelpad: dezelfde stappen als in ontwerp A, maar hier binnen de hero -->
+        <nav class="kruimelpad" aria-label="Kruimelpad">
+          <ol>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Ouders</a></li>
+            <li><span aria-current="page">Van opvang naar school</span></li>
+          </ol>
+        </nav>
+        <p class="labels">
+          <span class="label label--opvang">Kinderopvang Pluk</span>
+          <span class="label label--school">Basisschool De Boomgaard</span>
+        </p>
+        <p class="bovenkop">Kies de school die bij jullie past</p>
+        <h1 id="hero-titel">Jullie opvang, ook jullie school?</h1>
+        <p class="intro">Dat bepaal je helemaal zelf. We laten graag eerlijk zien wat dezelfde
+          plek, bekende mensen en een warme overdracht voor je kind kunnen betekenen.</p>
+        <div class="acties">
+          <a class="knop" href="#kennismaken">Plan een kennismaking</a>
+          <a class="knop knop--secundair knop--pijl knop--omlaag" href="#vergelijken">Hulp bij vergelijken<span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <!-- Collage: een grote foto, een kleine scheve foto en een roze notitie -->
+      <div class="hero-keuze__collage">
+        <figure class="collage__foto collage__foto--groot">
+          <img src="img/hero-kinderen.webp"
+               srcset="img/hero-kinderen-800.webp 800w, img/hero-kinderen-1280.webp 1280w, img/hero-kinderen.webp 2158w"
+               sizes="(min-width: 64rem) 40rem, 100vw"
+               width="2158" height="1064" fetchpriority="high"
+               alt="Een groep lachende kinderen met rugzakken rent hand in hand door een gang van de school">
+        </figure>
+        <figure class="collage__foto collage__foto--klein">
+          <img src="img/groep12-tekenen.webp" width="1000" height="667"
+               alt="Een juf tekent samen met een kleuter aan een kleurrijke tafel in de klas">
+        </figure>
+        <p class="collage__notitie">
+          <strong>Kom gerust vergelijken</strong>
+          Een kennismaking verplicht je tot niets.
+        </p>
+      </div>
+      <span class="hero-keuze__ring deco" aria-hidden="true"></span>
+    </section>
+
+    <!-- ================= 2. SAMENWERKING ================= -->
+    <section class="blok blok--stippen-1" id="samenwerking" aria-labelledby="samenwerking-titel">
+      <div class="samenwerking">
+        <figure class="samenwerking__foto">
+          <img src="img/kinderen2.jpg" width="600" height="415" loading="lazy"
+               alt="Kleuters knutselen samen aan tafel in de klas. Een meisje in een rood jurkje kijkt lachend om.">
+          <!-- Van Pluk naar De Boomgaard, als twee labels met een pijl ertussen -->
+          <figcaption class="samenwerking__route">
+            <span class="label label--opvang">Vandaag bij Pluk</span>
+            <span class="samenwerking__pijl" aria-hidden="true">→</span>
+            <span class="label label--school">Straks op De Boomgaard</span>
+          </figcaption>
+        </figure>
+        <div class="samenwerking__tekst">
+          <span class="duo-lijn" aria-hidden="true"></span>
+          <p class="bovenkop">Een plek die al vertrouwd voelt</p>
+          <h2 id="samenwerking-titel">Twee organisaties, één vertrouwde plek voor je kind</h2>
+          <p class="intro">De stap naar school begint niet pas op de eerste schooldag. Je kind kent
+            het gebouw, de mensen en het ritme vaak al.</p>
+        </div>
+        <ul class="voordelen">
+          <li>
+            <span class="icoon icoon--roze" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><path d="M2.75 10.08 11 3.67l8.25 6.41v8.25h-5.5v-5.5h-5.5v5.5h-5.5z"/></svg>
+            </span>
+            <h3>Hetzelfde gebouw</h3>
+            <p>Groep 1 zit een paar deuren verder.</p>
+          </li>
+          <li>
+            <span class="icoon icoon--groen" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><path d="M11 18.33s-6.42-4.03-7.88-7.88A4.6 4.6 0 0 1 11 6.42a4.6 4.6 0 0 1 7.88 4.03C17.42 14.3 11 18.33 11 18.33z"/></svg>
+            </span>
+            <h3>Warme overdracht</h3>
+            <p>Met jouw toestemming delen de opvang en de juf wat jouw kind nodig heeft.</p>
+          </li>
+          <li>
+            <span class="icoon icoon--roze" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.79"/><path d="M7.79 13.29a4.1 4.1 0 0 0 6.42 0M8.25 9.17h.01m5.49 0h.01"/></svg>
+            </span>
+            <h3>Bekende gezichten</h3>
+            <p>Kinderen van Pluk komen al eens kijken en spelen in de kleutergroep.</p>
+          </li>
+          <li>
+            <span class="icoon icoon--groen" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.79"/><path d="M11 6.88V11l2.75 1.83"/></svg>
+            </span>
+            <h3>BSO onder hetzelfde dak</h3>
+            <p>Na school gewoon hier blijven. Geen extra rit door de stad.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= 3. TIJDLIJN: FOCUS PER MOMENT ================= -->
+    <!-- Met JavaScript: links de vijf momenten als tabs, rechts één moment met foto en tip.
+         Zonder JavaScript: de vijf momenten staan gewoon onder elkaar. -->
+    <section class="blok blok--groen blok--stippen-2" id="stappen" aria-labelledby="stappen-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <p class="bovenkop">Van peuter tot kleuter</p>
+      <h2 id="stappen-titel">Wanneer moet ik wat doen?</h2>
+
+      <div class="momenten">
+        <!-- De tabs. "hidden" tot JavaScript ze aanzet (zie js/pagina-b.js) -->
+        <div class="momenten__tabs" aria-label="Kies een moment" hidden>
+          <button type="button" id="tab-1" aria-controls="moment-1"><span>01</span><small>Rond 2,5 jaar</small><strong>Rustig oriënteren</strong></button>
+          <button type="button" id="tab-2" aria-controls="moment-2"><span>02</span><small>Rond 3 jaar</small><strong>Kom kennismaken</strong></button>
+          <button type="button" id="tab-3" aria-controls="moment-3"><span>03</span><small>Vanaf 3 jaar</small><strong>Aanmelden</strong></button>
+          <button type="button" id="tab-4" aria-controls="moment-4"><span>04</span><small>3 jaar en 10 maanden</small><strong>Samen wennen</strong></button>
+          <button type="button" id="tab-5" aria-controls="moment-5"><span>05</span><small>4 jaar</small><strong>Naar groep 1</strong></button>
+        </div>
+
+        <div class="momenten__kaarten">
+          <div class="moment" id="moment-1">
+            <figure class="moment__foto">
+              <img src="img/b-stap-orienteren.webp" width="1200" height="900" loading="lazy"
+                   alt="Jonge kinderen samen aan een tafel in een lichte klas">
+              <span class="moment__nummer" aria-hidden="true">01</span>
+            </figure>
+            <div class="moment__tekst">
+              <p class="moment__leeftijd">Rond 2,5 jaar</p>
+              <h3>Rustig oriënteren</h3>
+              <p>Bekijk scholen en bespreek met de pedagogisch medewerker wat bij je kind past.</p>
+              <p class="moment__tip">Tip: schrijf op wat je belangrijk vindt voor je kind.</p>
+            </div>
+          </div>
+          <div class="moment" id="moment-2">
+            <figure class="moment__foto">
+              <img src="img/b-stap-kennismaken.webp" width="1200" height="900" loading="lazy"
+                   alt="Kinderen spelen samen in een lichte speelruimte">
+              <span class="moment__nummer" aria-hidden="true">02</span>
+            </figure>
+            <div class="moment__tekst">
+              <p class="moment__leeftijd">Rond 3 jaar</p>
+              <h3>Kom kennismaken</h3>
+              <p>Kijk binnen bij De Boomgaard en ontmoet de juf van groep 1.</p>
+              <p class="moment__tip">Tip: plan een kennismaking op een gewone schooldag.</p>
+              <a class="knop" href="#kennismaken">Plan een kennismaking</a>
+            </div>
+          </div>
+          <div class="moment" id="moment-3">
+            <figure class="moment__foto">
+              <img src="img/b-stap-aanmelden.webp" width="1200" height="900" loading="lazy"
+                   alt="Een begeleider en een kind tekenen samen aan tafel">
+              <span class="moment__nummer" aria-hidden="true">03</span>
+            </figure>
+            <div class="moment__tekst">
+              <p class="moment__leeftijd">Vanaf 3 jaar</p>
+              <h3>Aanmelden</h3>
+              <p>Kies je voor De Boomgaard? Meld je kind dan rond de derde verjaardag aan.</p>
+              <p class="moment__tip">Tip: aanmelden kan al voordat je kind vier jaar is.</p>
+            </div>
+          </div>
+          <div class="moment" id="moment-4">
+            <figure class="moment__foto">
+              <img src="img/b-stap-wennen.webp" width="1200" height="900" loading="lazy"
+                   alt="Een begeleider zit met kinderen samen aan een klassentafel">
+              <span class="moment__nummer" aria-hidden="true">04</span>
+            </figure>
+            <div class="moment__tekst">
+              <p class="moment__leeftijd">3 jaar en 10 maanden</p>
+              <h3>Samen wennen</h3>
+              <p>Je kind komt een paar ochtenden spelen in de kleutergroep.</p>
+              <p class="moment__tip">Tip: vertel vooraf wat je kind tijdens het wennen kan verwachten.</p>
+            </div>
+          </div>
+          <div class="moment" id="moment-5">
+            <figure class="moment__foto">
+              <img src="img/b-stap-groep1.webp" width="1200" height="900" loading="lazy"
+                   alt="Een leerkracht begroet een kind in de klas">
+              <span class="moment__nummer" aria-hidden="true">05</span>
+            </figure>
+            <div class="moment__tekst">
+              <p class="moment__leeftijd">4 jaar</p>
+              <h3>Naar groep 1</h3>
+              <p>Een vertrouwde stap naar school en daarna eventueel naar de BSO.</p>
+              <p class="moment__tip">Tip: leg de tas de avond ervoor samen klaar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leeftijdscheck: dezelfde berekening als in ontwerp A, in de vorm van dit ontwerp.
+           Alles gebeurt in de browser, er wordt niets opgeslagen of verstuurd (AVG). -->
+      <div class="leeftijdscheck" hidden>
+        <div>
+          <h3>Wat betekent dit voor jouw kind?</h3>
+          <p>Kies de geboortemaand en -jaar. Dan krijg je een beeld van jullie persoonlijke&nbsp;route.</p>
+        </div>
+        <label>
+          Geboortemaand
+          <select id="check-maand">
+            <option value="">Kies een maand</option>
+            <option value="1">januari</option>
+            <option value="2">februari</option>
+            <option value="3">maart</option>
+            <option value="4">april</option>
+            <option value="5">mei</option>
+            <option value="6">juni</option>
+            <option value="7">juli</option>
+            <option value="8">augustus</option>
+            <option value="9">september</option>
+            <option value="10">oktober</option>
+            <option value="11">november</option>
+            <option value="12">december</option>
+          </select>
+        </label>
+        <label>
+          Geboortejaar
+          <select id="check-jaar">
+            <option value="">Kies een jaar</option>
+            <option>2026</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+          </select>
+        </label>
+        <div class="leeftijdscheck__uitkomst" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ================= 4. EEN DAG IN GROEP 1-2 ================= -->
+    <section class="blok blok--roze dag" aria-labelledby="dag-titel">
+      <figure class="foto-blok">
+        <img src="img/groep12-tekenen.webp" width="1000" height="667" loading="lazy"
+             alt="Een juf tekent samen met een kleuter aan een kleurrijke tafel in de klas">
+      </figure>
+      <div>
+        <span class="duo-lijn" aria-hidden="true"></span>
+        <p class="bovenkop">Even binnenkijken</p>
+        <h2 id="dag-titel">Zo voelt een dag in groep 1–2</h2>
+        <p class="intro">Bij De Boomgaard leren kleuters vooral door te spelen. Er is ritme,
+          ruimte en persoonlijke aandacht.</p>
+        <ol class="dagritme">
+          <li><time datetime="08:30">08.30</time> Inloop en samen in de kring</li>
+          <li><time datetime="09:15">09.15</time> Spelen en werken in hoeken</li>
+          <li><time datetime="10:15">10.15</time> Fruit eten en buiten spelen</li>
+          <li><time datetime="12:00">12.00</time> Samen lunchen in de klas</li>
+          <li><time datetime="14:00">14.00</time> Naar huis of door naar de BSO</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= 5. ERVARINGEN ================= -->
+    <section class="blok blok--stippen-3" id="ervaringen" aria-labelledby="ervaringen-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <p class="bovenkop">Ervaringen uit het gebouw</p>
+      <h2 id="ervaringen-titel">Wat de juf en ouders vertellen</h2>
+
+      <div class="quotes">
+        <figure class="quote">
+          <span class="quote__teken" aria-hidden="true">“</span>
+          <blockquote>Veel kinderen ken ik al vóór hun eerste schooldag. Dan voelt groep 1 niet als
+            een onbekende wereld, maar als de volgende vertrouwde kamer.</blockquote>
+          <figcaption>
+            <img src="img/ervaring-juf.webp" width="480" height="480" loading="lazy" alt="">
+            <span><strong>Marieke Jansen</strong> Juf van groep 1–2</span>
+          </figcaption>
+        </figure>
+        <figure class="quote quote--roze">
+          <span class="quote__teken" aria-hidden="true">“</span>
+          <blockquote>Mila kende de juf al van het buitenspelen. Dat maakte haar eerste dag zoveel
+            lichter.</blockquote>
+          <figcaption>
+            <img src="img/b-moeder-mila.webp" width="176" height="176" loading="lazy" alt="">
+            <span><strong>Moeder van Mila</strong> Groep 2</span>
+          </figcaption>
+        </figure>
+        <figure class="quote">
+          <span class="quote__teken" aria-hidden="true">“</span>
+          <blockquote>We hebben meerdere scholen bekeken. De vertrouwde omgeving én de
+            onderwijsvisie gaven voor ons de doorslag.</blockquote>
+          <figcaption>
+            <img src="img/b-vader-sem.webp" width="500" height="500" loading="lazy" alt="">
+            <span><strong>Vader van Sem</strong> Groep 1</span>
+          </figcaption>
+        </figure>
+        <div class="quotes__actie">
+          <p>Zelf ervaren hoe vertrouwd het voelt?</p>
+          <a class="knop" href="#kennismaken">Plan een kennismaking</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. VERGELIJKEN ================= -->
+    <section class="blok blok--roze blok--stippen-4" id="vergelijken" aria-labelledby="vergelijken-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <p class="bovenkop">Kiezen zonder druk</p>
+      <h2 id="vergelijken-titel">Vergelijk gerust</h2>
+      <p class="intro">Je kind zit op Pluk, maar je kiest zelf een school. Bekijk ook andere
+        scholen. Zo weet je zeker dat je kiest wat bij jullie past.</p>
+
+      <div class="download">
+        <div class="download__tekst">
+          <h3>Neem je eigen vragen mee</h3>
+          <p>Een kennismaking is vaak zo voorbij. Daarom hebben we de belangrijkste vragen voor je
+            verzameld in een printbare checklist. Met schrijfruimte voor wat je opvalt,
+            zodat je de scholen later eerlijk naast elkaar kunt leggen.</p>
+          <a class="knop" href="downloads/checklist-rondleiding.pdf" download>Download de checklist (PDF)</a>
+          <small>1 pagina · 8 vragen · ruimte voor notities</small>
+        </div>
+        <!-- Een voorbeeld van de PDF, alleen als plaatje: de vragen staan ook in de PDF zelf -->
+        <div class="download__voorbeeld" aria-hidden="true">
+          <span class="voorbeeld__boven">Kennismaking</span>
+          <strong class="voorbeeld__titel">Vragen voor tijdens de kennismaking</strong>
+          <ol>
+            <li><span>01</span><strong>Hoe ziet een gewone dag in groep 1 eruit?</strong></li>
+            <li><span>02</span><strong>Hoe groot is de groep, en wie staat er voor de klas?</strong></li>
+            <li><span>03</span><strong>Hoe helpen jullie een kind dat het spannend vindt?</strong></li>
+          </ol>
+          <span class="voorbeeld__meer">+ nog 5 vragen in de PDF</span>
+        </div>
+      </div>
+
+      <div class="bronnen">
+        <div>
+          <p class="bovenkop">Onafhankelijke informatie</p>
+          <h3>Vergelijk ook buiten de kennismaking</h3>
+        </div>
+        <a href="https://scholenopdekaart.nl/" target="_blank" rel="noreferrer">
+          <span class="bronnen__naam">Scholen op de kaart</span>
+          Informatie en cijfers over alle basisscholen in Nederland.
+          <span class="visueel-verborgen">(opent in een nieuw tabblad)</span>
+          <span class="bronnen__pijl" aria-hidden="true">↗</span>
+        </a>
+        <a href="https://toezichtsresultaten.onderwijsinspectie.nl/" target="_blank" rel="noreferrer">
+          <span class="bronnen__naam">Inspectie van het Onderwijs</span>
+          Lees wat de inspectie vindt van de kwaliteit van een school.
+          <span class="visueel-verborgen">(opent in een nieuw tabblad)</span>
+          <span class="bronnen__pijl" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ================= 7. VEELGESTELDE VRAGEN ================= -->
+    <!-- <details> klapt open en dicht zonder JavaScript, en werkt met het toetsenbord.
+         Het plus- of minteken komt uit de CSS: + als de vraag dicht is, − als hij open is. -->
+    <section class="blok vragen" id="vragen" aria-labelledby="vragen-titel">
+      <div>
+        <span class="duo-lijn" aria-hidden="true"></span>
+        <p class="bovenkop">Goed om te weten</p>
+        <h2 id="vragen-titel">Veelgestelde vragen</h2>
+        <p class="intro">Openheid begint bij duidelijke antwoorden. Staat je vraag er niet bij?
+          Bel of mail ons gerust.</p>
+        <ul class="vragen__contact">
+          <li>
+            <span class="icoon icoon--groen" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><path d="M19.25 15.4v2.6a1.75 1.75 0 0 1-1.9 1.75 17.3 17.3 0 0 1-7.55-2.69 17 17 0 0 1-5.24-5.24A17.3 17.3 0 0 1 1.87 4.24 1.75 1.75 0 0 1 3.6 2.33h2.6a1.75 1.75 0 0 1 1.75 1.5c.11.84.32 1.66.61 2.45a1.75 1.75 0 0 1-.4 1.84L7.07 9.21a14 14 0 0 0 5.24 5.24l1.1-1.1a1.75 1.75 0 0 1 1.84-.39c.79.3 1.61.5 2.45.61a1.75 1.75 0 0 1 1.5 1.78z"/></svg>
+            </span>
+            <a href="tel:+31301234567"><span class="visueel-verborgen">Bel </span>030 123 45 67</a>
+          </li>
+          <li>
+            <span class="icoon icoon--groen" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><rect x="2.75" y="4.58" width="16.5" height="12.83" rx="2"/><path d="m2.75 6.42 8.25 5.5 8.25-5.5"/></svg>
+            </span>
+            <a href="mailto:info@deboomgaard.example"><span class="visueel-verborgen">Mail </span>info@deboomgaard.example</a>
+          </li>
+        </ul>
+      </div>
+      <div class="vragen__lijst">
+        <details>
+          <summary>Zijn Pluk en De Boomgaard dezelfde organisatie?<span class="vragen__teken" aria-hidden="true"></span></summary>
+          <p>Nee. Pluk en De Boomgaard zijn zelfstandige organisaties. Ze delen een gebouw en werken
+            praktisch samen rondom de overgang van opvang naar school.</p>
+        </details>
+        <details>
+          <summary>Moet mijn kind naar De Boomgaard als het bij Pluk zit?<span class="vragen__teken" aria-hidden="true"></span></summary>
+          <p>Nee. Je kiest als ouder altijd zelf een basisschool. Een kennismaking is
+            vrijblijvend.</p>
+        </details>
+        <details>
+          <summary>Hoe ziet het wennen in groep 1 eruit?<span class="vragen__teken" aria-hidden="true"></span></summary>
+          <p>Voor de vierde verjaardag komt je kind een paar keer meedoen. We stemmen dit met jou af
+            en zorgen voor herkenbare gezichten.</p>
+        </details>
+        <details>
+          <summary>Kan mijn kind na school naar de BSO?<span class="vragen__teken" aria-hidden="true"></span></summary>
+          <p>Ja, Pluk biedt ook BSO in hetzelfde gebouw. De schooldag loopt zo rustig over in de
+            middag.</p>
+        </details>
+        <details>
+          <summary>Wat kost de school?<span class="vragen__teken" aria-hidden="true"></span></summary>
+          <p>Basisonderwijs is kosteloos. De school kan wel een vrijwillige ouderbijdrage vragen voor
+            extra activiteiten. Je kind mag altijd meedoen, ook als je deze bijdrage niet betaalt.</p>
+        </details>
+        <details>
+          <summary>Wil je je kind meteen aanmelden?<span class="vragen__teken" aria-hidden="true"></span></summary>
+          <p>Dat kan, maar hoeft niet tijdens de kennismaking. Neem gerust eerst de tijd om thuis te
+            vergelijken. Als je wilt aanmelden, helpt De Boomgaard je met de vervolgstappen.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ================= 8. KENNISMAKEN ================= -->
+    <section class="blok blok--roze blok--stippen-5" id="kennismaken" aria-labelledby="kennismaken-titel">
+      <div class="uitnodiging">
+        <div class="uitnodiging__tekst">
+          <span class="duo-lijn" aria-hidden="true"></span>
+          <p class="bovenkop">Kom een gewone schooldag ervaren</p>
+          <h2 id="kennismaken-titel">Voel zelf of het bij jullie past.</h2>
+          <p>Je loopt samen door de school en praat met de juf van groep&nbsp;1. Rustig,
+            persoonlijk en zonder verkooppraatje.</p>
+          <!-- Deze knop gaat later naar een eigen pagina met het formulier om een moment te kiezen.
+               Die pagina bestaat nog niet: vervang dan "#" door de naam van die pagina. -->
+          <a class="knop" href="#">Plan een kennismaking</a>
+
+          <div class="herinnering">
+            <span class="icoon icoon--groen" aria-hidden="true">
+              <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.79"/><path d="M11 6.88V11l2.75 1.83"/></svg>
+            </span>
+            <h3>Nog niet zover?</h3>
+            <p>Krijg één mail wanneer het tijd is om je te oriënteren. Meer niet.</p>
+            <a class="knop knop--secundair" href="mailto:herinnering@deboomgaard.example">Stuur mij een herinnering</a>
+          </div>
+        </div>
+        <figure class="uitnodiging__foto">
+          <img src="img/kennismaken-klas.webp" width="800" height="1200" loading="lazy"
+               alt="Een juf helpt een jongen met kleurpotloden in een lichte klas met een groene stoel">
+        </figure>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="voet">
+    <div>
+      <p class="voet__titel">Basisschool De Boomgaard</p>
+      <p>Boomgaardlaan 12<br>1234 AB Appeldorp</p>
+    </div>
+    <div>
+      <p class="voet__titel">In samenwerking met</p>
+      <a class="link-pijl" href="#samenwerking">Kinderopvang Pluk</a>
+      <p>Dagopvang, peuteropvang en BSO onder hetzelfde dak.</p>
+    </div>
+    <div>
+      <p class="voet__titel">Contact</p>
+      <a href="tel:+31301234567">030 123 45 67</a>
+      <a href="mailto:info@deboomgaard.example">info@deboomgaard.example</a>
+    </div>
+    <p class="voet__noot">Fictieve organisaties, gemaakt voor een assessment. Foto's: Unsplash.</p>
+  </footer>
+
+</body>
+</html>

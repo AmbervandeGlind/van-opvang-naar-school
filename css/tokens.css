@@ -1,0 +1,124 @@
+/*
+  DESIGN TOKENS
+  -------------
+  Dit is het "stijlfundament" van de pagina, vergelijkbaar met Styles in Figma.
+  Elke waarde krijgt hier één keer een naam (een CSS-variabele, herkenbaar aan --).
+  In de rest van de CSS gebruiken we alleen die namen, bijvoorbeeld:
+      color: var(--kleur-tekst);
+  Wil je later een kleur aanpassen? Dan verander je hem alleen hier,
+  en past de hele pagina zich aan.
+
+  De namen beschrijven de ROL (achtergrond, kaart, accent) en niet de kleur zelf.
+  Zo kun je de kleur wisselen zonder dat de naam onjuist wordt.
+*/
+
+:root {
+  /* ---------- KLEUREN ---------- */
+
+  /* Hoofdkleur: de SAMENWERKING. Een warme, diepe inktkleur: neutraal, maar met een
+     paarse ondertoon die aansluit bij het roze. Tekst en knoppen gebruiken dezelfde
+     kleur, waardoor het één geheel vormt. Wit op deze kleur: contrast 14.5. */
+  --kleur-hoofd: #2B2735;
+  --kleur-hoofd-donker: #17141D;   /* hover-staat van knoppen */
+  --kleur-hoofd-licht: #ECEAE7;    /* neutraal lichtgrijs: hover-vlakken, zachte labels */
+
+  /* Hoofdknop (de belangrijkste actie: "Plan een kennismaking").
+     Groen, de kleur van De Boomgaard: de pagina staat op de website van de school en de
+     kennismaking is óók bij de school. Groen valt op zowel op wit als op de roze kaart in de
+     tijdlijn op. Wit op dit groen: contrast 5.42 (WCAG AA). Een eigen naam, zodat de knopkleur
+     los van de rest te wisselen is. Liever roze? Gebruik dan #D1316B (contrast 4.81). */
+  --kleur-knop: #23793D;
+  --kleur-knop-hover: #1A5C2E;
+
+  /* Achtergronden: wit als basis, dat staat fris bij de roze en groene accenten.
+     (Eerder warm beige, maar dat voelde bedompt.) */
+  --kleur-achtergrond: #FFFFFF;    /* standaard achtergrond van de pagina */
+  --kleur-vlak: #F6F5F3;           /* neutraal bijna-wit: formulier, contactkaarten, footer */
+  --kleur-kaart: #FFFFFF;          /* kaarten en vlakken die iets "omhoog" komen */
+
+  /* Heel lichte tinten van roze en groen, voor de panelen (tijdlijn, vragen, dagritme).
+     Gezellig, maar zo licht dat het niet druk wordt. */
+  --kleur-tint-roze: #FFF3F6;
+  --kleur-tint-groen: #F2FAF4;
+
+  /* ACCENTEN van de twee organisaties.
+     De pagina heeft één stijl, maar deze twee kleuren laten zien dat er twee
+     huisstijlen samenkomen. Gebruik ze klein: labels, lijntjes, vormen achter foto's,
+     bolletjes. Niet voor hele secties.
+     - "fel" = alleen decoratief (vormen, lijntjes), niet voor tekst
+     - "tekst" = donkerdere versie die wel leesbaar is als tekst (WCAG AA)
+     - "licht" = zachte achtergrond voor labels */
+  --kleur-opvang: #E8457C;         /* roze, Kinderopvang Pluk */
+  --kleur-opvang-tekst: #B8285C;   /* contrast 5.79 op achtergrond */
+  --kleur-opvang-licht: #FFE1EB;
+  --kleur-school: #3FAE5F;         /* groen, Basisschool De Boomgaard */
+  --kleur-school-tekst: #23793D;   /* contrast 5.23 op achtergrond */
+  --kleur-school-licht: #DDF3E2;
+
+  /* Tekst */
+  --kleur-tekst: #2B2735;          /* gelijk aan de hoofdkleur: rustig en samenhangend */
+  --kleur-tekst-zacht: #5A5563;    /* ondersteunende tekst (contrast 6.95) */
+  --kleur-wit: #FFFFFF;
+
+  /* Links: groen, in de leesbare tekstversie van De Boomgaard.
+     De pagina staat op de website van de school, dus links in de schoolkleur zijn logisch.
+     (Eerder violet, maar dat las als een losse, extra kleur.) */
+  --kleur-link: #23793D;           /* contrast 5.4 op wit, 4.8 op vlak */
+  --kleur-link-hover: #1A5C2E;
+
+  /* Lijnen, zoals de lijn van de tijdlijn: net zichtbaar op het warme vlak */
+  --kleur-lijn: #DDD5CC;
+
+  /* Foutmeldingen in het formulier: rood, want dat herkent iedereen als "er klopt iets niet".
+     Bewust anders dan het roze van Pluk. Contrast 5.9 op wit, 5.4 op vlak. */
+  --kleur-fout: #C0262D;
+
+  /* Rand van invoervelden. WCAG vraagt minimaal 3:1 contrast voor randen (3.5 op wit) */
+  --kleur-rand: #8C8794;
+
+  /* ---------- TYPOGRAFIE ---------- */
+
+  /* Koppen: Nunito, met afgeronde letters (vriendelijk).
+     Lopende tekst: Nunito Sans, dezelfde familie maar rustiger en goed leesbaar. */
+  --font-kop: "Nunito", system-ui, sans-serif;
+  --font-tekst: "Nunito Sans", system-ui, sans-serif;
+
+  /* Lettergroottes. "rem" is relatief aan de browserinstelling van de bezoeker
+     (meestal 16px). Wie zijn tekst groter zet, krijgt dus ook een grotere pagina.
+     Dat is belangrijk voor toegankelijkheid. clamp() laat koppen meegroeien met het
+     scherm: clamp(minimum, voorkeur, maximum). */
+  --tekst-klein: 0.875rem;                          /* 14px */
+  --tekst-basis: 1.0625rem;                         /* 17px: iets groter dan standaard, prettig lezen op mobiel */
+  --tekst-groot: 1.25rem;                           /* 20px: intro-tekst */
+  --kop-3: 1.25rem;
+  --kop-2: clamp(1.625rem, 1.3rem + 1.5vw, 2.25rem);
+  --kop-1: clamp(2rem, 1.5rem + 2.5vw, 3.25rem);
+
+  --regelhoogte-tekst: 1.7;        /* ruime regelafstand: rustiger en opener om te lezen */
+  --regelhoogte-kop: 1.2;
+
+  /* ---------- AFSTANDEN ---------- */
+  /* Een vaste reeks, zodat alle witruimte op elkaar is afgestemd (zoals een 8px-grid in Figma) */
+  --ruimte-1: 0.25rem;   /*  4px */
+  --ruimte-2: 0.5rem;    /*  8px */
+  --ruimte-3: 1rem;      /* 16px */
+  --ruimte-4: 1.5rem;    /* 24px */
+  --ruimte-5: 2rem;      /* 32px */
+  --ruimte-6: 3rem;      /* 48px */
+  --ruimte-7: 4.5rem;    /* 72px */
+  --ruimte-8: 7rem;      /* 112px: ruimte tussen secties op een groot scherm */
+
+  /* ---------- VORMEN ---------- */
+  --radius-klein: 0.5rem;    /* invoervelden, labels */
+  --radius: 1rem;            /* kaarten */
+  --radius-groot: 1.75rem;   /* grote vlakken en afbeeldingen */
+  --radius-rond: 999px;      /* knoppen: volledig afgerond (pil-vorm) */
+
+  /* Een heel zachte schaduw, alleen nog voor wat echt "boven" iets anders ligt
+     (de hero-kaart op de foto). Kaarten zijn verder plat: dat oogt lichter. */
+  --schaduw: 0 1px 2px rgb(43 39 53 / 0.04), 0 8px 24px rgb(43 39 53 / 0.06);
+
+  /* Maximale breedte van de inhoud, zodat regels op grote schermen niet te lang worden */
+  --breedte-max: 72rem;
+  --breedte-tekst: 40rem;
+}

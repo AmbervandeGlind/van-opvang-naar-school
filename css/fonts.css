@@ -1,0 +1,31 @@
+/*
+  LETTERTYPES
+  -----------
+  De lettertypes staan in de map fonts/ van de website zelf, in plaats van bij Google Fonts.
+  Waarom? Bij Google Fonts stuurt de browser van elke bezoeker zijn IP-adres naar Google.
+  Dat is volgens de AVG een persoonsgegeven (in Duitsland al eens beboet). Zo blijft alles
+  op onze eigen server, en laadt de pagina ook nog iets sneller.
+
+  Beide lettertypes zijn "variabel": één bestand bevat alle diktes. Alleen de Latijnse
+  tekens zitten erin (ook ë, é, ï), dat is genoeg voor Nederlands en houdt de bestanden klein.
+  Licentie: SIL Open Font License, vrij te gebruiken en mee te leveren.
+
+  font-display: swap -> de tekst is meteen leesbaar in een standaardletter,
+  en wisselt naar Nunito zodra het bestand binnen is.
+*/
+
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("../fonts/nunito.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/nunito-sans.woff2") format("woff2");
+}

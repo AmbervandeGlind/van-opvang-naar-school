@@ -1,0 +1,1745 @@
+/*
+  PAGINA-OPMAAK ONTWERP B ("Vrij kiezen")
+  ---------------------------------------
+  De opmaak van index.html (het eindontwerp), overgenomen uit het Figma Make-ontwerp.
+  Kleuren, lettertypes, afstanden, hoeken en schaduw komen uit tokens.css: dezelfde
+  styleguide als ontwerp A. Waar Make een eigen maat gebruikte (bijvoorbeeld 22px of 92px),
+  is die vervangen door de dichtstbijzijnde token.
+
+  Net als ontwerp A: MOBILE-FIRST. Bovenaan de opmaak voor een telefoon,
+  onderaan de @media-blokken voor tablet (48rem) en desktop (64rem).
+*/
+
+/* Twee maten die alleen dit ontwerp gebruikt, daarom hier en niet in tokens.css:
+   - de breedte van de gekleurde blokken: die lopen breder door dan de inhoud (max 1400px)
+   - de binnenruimte links en rechts: op een groot scherm precies genoeg om de inhoud
+     op --breedte-max te houden */
+:root {
+  --blok-breedte: min(87.5rem, 100% - 2 * var(--ruimte-2));
+  --blok-zijkant: max(var(--ruimte-4), (var(--blok-breedte) - var(--breedte-max)) / 2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* De pagina wordt nooit breder dan het scherm, ook niet door de schuine foto's en cirkels */
+body {
+  overflow-x: clip;
+}
+
+/* ================= HULPKLASSEN ================= */
+.skiplink {
+  position: absolute;
+  top: -10rem;
+  left: var(--ruimte-3);
+  z-index: 100;
+  padding: var(--ruimte-2) var(--ruimte-3);
+  background: var(--kleur-hoofd);
+  color: var(--kleur-wit);
+  border-radius: var(--radius-klein);
+}
+.skiplink:focus {
+  top: var(--ruimte-3);
+  color: var(--kleur-wit);
+}
+
+/* Alleen voor schermlezers: onzichtbaar, maar wel voorgelezen */
+.visueel-verborgen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* De omlijnde knop wordt bij hover wit (in base.css is dat lichtgrijs, dat blijft zo voor ontwerp A) */
+.knop--secundair:hover {
+  background: var(--kleur-wit);
+}
+
+/* Knop met een pijltje dat bij hover een stukje opschuift */
+.knop--pijl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-2);
+}
+.knop--pijl span {
+  transition: transform 0.15s ease;
+}
+.knop--pijl:hover span {
+  transform: translateX(0.2rem);
+}
+/* Pijl naar beneden: de knop gaat naar een sectie verderop op de pagina */
+.knop--omlaag:hover span {
+  transform: translateY(0.2rem);
+}
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ruimte-2);
+  margin: 0;
+}
+
+/* Klein, in hoofdletters, boven een kop */
+.bovenkop {
+  margin: 0 0 var(--ruimte-2);
+  color: var(--kleur-opvang-tekst);
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.intro {
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-groot);
+}
+
+/* Rond icoon in een zacht gekleurd bolletje */
+.icoon {
+  display: grid;
+  place-items: center;
+  width: 2.875rem;
+  height: 2.875rem;
+  flex: none;
+  border-radius: var(--radius-rond);
+}
+.icoon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icoon--roze { background: var(--kleur-opvang-licht); color: var(--kleur-opvang-tekst); }
+.icoon--groen { background: var(--kleur-school-licht); color: var(--kleur-school-tekst); }
+
+/* ================= HEADER + NAVIGATIE ================= */
+/* Dezelfde header als ontwerp A: deze regels zijn overgenomen uit css/pagina.css.
+   Pas je daar iets aan de header aan, doe dat dan hier ook. */
+.kop {
+  padding-inline: max(1.25rem, (100% - var(--breedte-max)) / 2);
+}
+/* Een witte balk met een schaduw eronder: duidelijk afgebakend van de pagina */
+.kop {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-4);
+  padding-block: var(--ruimte-3);
+  background: var(--kleur-kaart);
+  box-shadow: 0 1px 0 var(--kleur-vlak), 0 4px 16px rgb(43 39 53 / 0.06);
+}
+
+/* Navigatielinks: op mobiel verborgen (de pagina is kort genoeg om te scrollen),
+   op een groot scherm zichtbaar (zie onderaan) */
+.kop__nav {
+  display: none;
+}
+.kop__nav ul {
+  display: flex;
+  gap: var(--ruimte-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.kop__nav a {
+  color: var(--kleur-tekst);
+  font-family: var(--font-kop);
+  font-weight: 700;
+  text-decoration: none;
+  padding-block: var(--ruimte-2);
+  border-bottom: 3px solid transparent;
+}
+/* De menu-stijl van de schoolwebsite: groen, want dat is de huisstijl van De Boomgaard */
+.kop__nav a:hover,
+.kop__nav a[aria-current="page"] {
+  border-bottom-color: var(--kleur-school);
+}
+
+/* MENUKNOP (mobiel en tablet)
+   Standaard verborgen. Alleen met JavaScript (class "js") zichtbaar, want zonder
+   JavaScript kan hij het menu niet openen. */
+.kop__menuknop {
+  display: none;
+  align-items: center;
+  gap: var(--ruimte-2);
+  min-height: 2.75rem;             /* minimaal 44px: groot genoeg om aan te tikken */
+  padding: var(--ruimte-1) var(--ruimte-3);
+  border: 2px solid var(--kleur-rand);
+  border-radius: var(--radius-rond);
+  background: var(--kleur-kaart);
+  color: var(--kleur-tekst);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-basis);
+  font-weight: 700;
+  cursor: pointer;
+}
+.kop__menuknop:hover {
+  background: var(--kleur-hoofd-licht);
+}
+.kop__menuknop svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+/* Hamburger als het menu dicht is, een kruisje als het open is */
+.kop__menuknop[aria-expanded="true"] .kop__icoon-open,
+.kop__menuknop[aria-expanded="false"] .kop__icoon-dicht {
+  display: none;
+}
+
+/* Het uitklapmenu. Dit geldt alleen ONDER de 64rem (max-width), want op een groot
+   scherm staat het menu gewoon in de balk. */
+@media (max-width: 63.99rem) {
+  .js .kop__menuknop {
+    display: inline-flex;
+  }
+  /* Open menu: een wit vlak direct onder de balk, over de volle breedte */
+  .kop--menu-open .kop__nav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--ruimte-2) max(1.25rem, (100% - var(--breedte-max)) / 2) var(--ruimte-4);
+    background: var(--kleur-kaart);
+    box-shadow: 0 12px 24px rgb(43 39 53 / 0.08);
+  }
+  .kop--menu-open .kop__nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+  .kop--menu-open .kop__nav li {
+    border-bottom: 1px solid var(--kleur-lijn);
+  }
+  .kop--menu-open .kop__nav a {
+    display: block;
+    padding-block: var(--ruimte-3);
+    border-bottom: 0;
+  }
+  /* Ook hier het groene streepje bij "Ouders", nu als onderstreping van de tekst */
+  .kop--menu-open .kop__nav a[aria-current="page"] {
+    text-decoration: underline 3px var(--kleur-school);
+    text-underline-offset: 0.45em;
+  }
+}
+
+/* Logo van De Boomgaard: een groen boompje met de naam ernaast */
+.logo-school {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-2);
+  color: var(--kleur-school-tekst);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-groot);
+  font-weight: 800;
+  line-height: 1.05;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.kop .logo-school {
+  margin-right: auto;              /* duwt het menu en de knoppen naar rechts */
+}
+.logo-school:hover {
+  color: var(--kleur-school-tekst);
+}
+.logo-school__klein {
+  display: block;
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  color: var(--kleur-tekst-zacht);
+}
+.logo-school__icoon {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: var(--kleur-school);
+}
+
+/* Kleinere variant van de knop */
+.knop--klein {
+  padding: 0.7rem 1.4rem;
+  white-space: nowrap;
+}
+/* Op mobiel past de knop niet naast het logo. Daar komt in ontwerp A een
+   sticky knop onderin het scherm voor in de plaats (FR-08), binnen bereik van de duim. */
+.kop .knop {
+  display: none;
+}
+
+/* ================= BLOKKEN ================= */
+/* Elke sectie is een "blok". Een blok met een kleur is een afgerond vlak dat bijna
+   tot de rand van het scherm loopt. */
+.blok {
+  position: relative;
+  width: var(--blok-breedte);
+  margin: 0 auto var(--ruimte-5);
+  padding: var(--ruimte-7) var(--blok-zijkant);
+  border-radius: var(--radius-groot);
+}
+.blok--roze { background-color: var(--kleur-tint-roze); }
+.blok--groen { background-color: var(--kleur-tint-groen); }
+
+.blok h2 {
+  max-width: 48rem;
+}
+
+/* DECORATIE: in elk blok een paar losse stipjes en een grote, bijna doorzichtige ring.
+   De stipjes zijn achtergrondafbeeldingen (radial-gradient), de ring en de grote stip
+   zijn ::before en ::after. Alles in roze en groen, zoals in ontwerp A.
+   Met JavaScript worden de ring en de grote stip echte elementen (.deco--ring en .deco--stip),
+   zodat je ze kunt verslepen. Daarom staat bij elke regel ook die variant. */
+.blok--stippen-1,
+.blok--stippen-2,
+.blok--stippen-3,
+.blok--stippen-4,
+.blok--stippen-5 {
+  overflow: visible;
+}
+.blok--stippen-1::before,
+.blok--stippen-1 > .deco--ring,
+.blok--stippen-2::before,
+.blok--stippen-2 > .deco--ring,
+.blok--stippen-3::before,
+.blok--stippen-3 > .deco--ring,
+.blok--stippen-4::before,
+.blok--stippen-4 > .deco--ring,
+.blok--stippen-5::before,
+.blok--stippen-5 > .deco--ring,
+.blok--stippen-1::after,
+.blok--stippen-1 > .deco--stip,
+.blok--stippen-2::after,
+.blok--stippen-2 > .deco--stip,
+.blok--stippen-3::after,
+.blok--stippen-3 > .deco--stip,
+.blok--stippen-4::after,
+.blok--stippen-4 > .deco--stip,
+.blok--stippen-5::after,
+.blok--stippen-5 > .deco--stip {
+  content: "";
+  position: absolute;
+  border-radius: var(--radius-rond);
+  pointer-events: none;
+}
+/* Zijn de echte elementen er, dan zijn de ::before en ::after niet meer nodig */
+.blok.deco-los::before,
+.blok.deco-los::after {
+  content: none;
+}
+
+/* Samenwerking: roze ring rechtsboven, groene stip linksonder */
+.blok--stippen-1 {
+  background-image:
+    radial-gradient(circle at 8% 23%, rgb(232 69 124 / 72%) 0 5px, transparent 6px),
+    radial-gradient(circle at 91% 68%, rgb(63 174 95 / 58%) 0 9px, transparent 10px),
+    radial-gradient(circle at 73% 9%, rgb(63 174 95 / 48%) 0 4px, transparent 5px);
+}
+.blok--stippen-1::before,
+.blok--stippen-1 > .deco--ring {
+  top: 5rem;
+  right: -4.5rem;
+  width: 11.25rem;
+  height: 11.25rem;
+  border: 1.5rem solid var(--kleur-opvang);
+  opacity: 0.16;
+}
+.blok--stippen-1::after,
+.blok--stippen-1 > .deco--stip {
+  bottom: 3.4rem;
+  left: 3%;
+  width: 1.875rem;
+  height: 1.875rem;
+  background: var(--kleur-school);
+  opacity: 0.72;
+}
+
+/* Tijdlijn: groene ring linksonder, roze stip linksboven */
+.blok--stippen-2 {
+  background-image:
+    radial-gradient(circle at 84% 16%, rgb(63 174 95 / 65%) 0 7px, transparent 8px),
+    radial-gradient(circle at 12% 74%, rgb(232 69 124 / 58%) 0 4px, transparent 5px),
+    radial-gradient(circle at 69% 93%, rgb(232 69 124 / 42%) 0 10px, transparent 11px);
+}
+.blok--stippen-2::before,
+.blok--stippen-2 > .deco--ring {
+  bottom: -4.6rem;
+  left: -3.6rem;
+  width: 12rem;
+  height: 12rem;
+  border: 1.75rem solid var(--kleur-school);
+  opacity: 0.12;
+}
+.blok--stippen-2::after,
+.blok--stippen-2 > .deco--stip {
+  top: 5.5rem;
+  left: 5%;
+  width: 1.375rem;
+  height: 1.375rem;
+  background: var(--kleur-opvang);
+  opacity: 0.68;
+}
+
+/* Ervaringen: groene ring linksonder, roze stip rechtsboven */
+.blok--stippen-3 {
+  background-image:
+    radial-gradient(circle at 18% 11%, rgb(63 174 95 / 58%) 0 5px, transparent 6px),
+    radial-gradient(circle at 91% 42%, rgb(232 69 124 / 52%) 0 8px, transparent 9px);
+}
+.blok--stippen-3::before,
+.blok--stippen-3 > .deco--ring {
+  bottom: -3.25rem;
+  left: -2.6rem;
+  width: 8.25rem;
+  height: 8.25rem;
+  border: 1.25rem solid var(--kleur-school);
+  opacity: 0.14;
+}
+.blok--stippen-3::after,
+.blok--stippen-3 > .deco--stip {
+  top: 3.6rem;
+  right: 6%;
+  width: 2.125rem;
+  height: 2.125rem;
+  background: var(--kleur-opvang);
+  opacity: 0.7;
+}
+
+/* Vergelijken: roze ring rechtsonder, groene stip linksboven */
+.blok--stippen-4 {
+  background-image:
+    radial-gradient(circle at 7% 54%, rgb(63 174 95 / 66%) 0 6px, transparent 7px),
+    radial-gradient(circle at 77% 8%, rgb(232 69 124 / 48%) 0 4px, transparent 5px),
+    radial-gradient(circle at 94% 71%, rgb(63 174 95 / 44%) 0 10px, transparent 11px);
+}
+.blok--stippen-4::before,
+.blok--stippen-4 > .deco--ring {
+  right: -5.4rem;
+  bottom: -4.25rem;
+  width: 13.75rem;
+  height: 13.75rem;
+  border: 1.875rem solid var(--kleur-opvang);
+  opacity: 0.12;
+}
+.blok--stippen-4::after,
+.blok--stippen-4 > .deco--stip {
+  top: 4.75rem;
+  left: 4%;
+  width: 1.625rem;
+  height: 1.625rem;
+  background: var(--kleur-school);
+  opacity: 0.72;
+}
+
+/* Kennismaken: groene ring rechtsboven, roze stip linksonder */
+.blok--stippen-5 {
+  background-image:
+    radial-gradient(circle at 11% 29%, rgb(232 69 124 / 62%) 0 7px, transparent 8px),
+    radial-gradient(circle at 88% 84%, rgb(63 174 95 / 56%) 0 5px, transparent 6px);
+}
+.blok--stippen-5::before,
+.blok--stippen-5 > .deco--ring {
+  top: 2.1rem;
+  right: -3.25rem;
+  width: 9.25rem;
+  height: 9.25rem;
+  border: 1.375rem solid var(--kleur-school);
+  opacity: 0.14;
+}
+.blok--stippen-5::after,
+.blok--stippen-5 > .deco--stip {
+  bottom: 2.4rem;
+  left: 3%;
+  width: 2rem;
+  height: 2rem;
+  background: var(--kleur-opvang);
+  opacity: 0.7;
+}
+
+/* Op een telefoon is er te weinig ruimte: de ringen en grote stippen zouden over de tekst vallen */
+@media (max-width: 47.99rem) {
+  .blok::before,
+  .blok::after,
+  .blok > .deco {
+    display: none;
+  }
+  .blok {
+    background-image: none;
+  }
+}
+
+/* Versleepbare cirkels (zie js/pagina-b.js). Na het loslaten blijven ze liggen;
+   bij scrollen glijden ze terug naar hun eigen plek. */
+.deco.deco--sleepbaar {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+/* Een verplaatste cirkel ligt bovenop de inhoud, anders verdwijnt hij achter een kaart */
+.deco.deco--sleepbaar.is-verplaatst {
+  z-index: 5;
+}
+.deco.deco--sleepbaar.is-gepakt {
+  z-index: 10;
+  cursor: grabbing;
+}
+.deco--terug {
+  transition: translate 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);   /* met een klein veertje */
+}
+@media (prefers-reduced-motion: reduce) {
+  .deco--terug {
+    transition: none;
+  }
+}
+
+/* Heel smal scherm (320px): logo en menuknop iets compacter, zoals in ontwerp A */
+@media (max-width: 22.5rem) {
+  .kop {
+    gap: var(--ruimte-2);
+  }
+  .logo-school {
+    font-size: var(--tekst-basis);
+  }
+  .logo-school__icoon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .kop__menuknop {
+    padding-inline: var(--ruimte-2);
+  }
+}
+
+/* De inhoud staat altijd boven de decoratie */
+.blok > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================= 1. HERO ================= */
+.hero-keuze {
+  position: relative;
+  display: grid;
+  gap: var(--ruimte-6);
+  width: var(--blok-breedte);
+  margin: var(--ruimte-4) auto var(--ruimte-5);
+  padding: var(--ruimte-6) var(--blok-zijkant) var(--ruimte-7);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-tint-groen);
+}
+.hero-keuze__tekst {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+/* De ruimte tussen de onderdelen loopt op van klein naar groot, zodat bij elkaar hoort wat bij elkaar hoort:
+   kruimelpad (los, 32px) → labels (24px) → bovenkop (8px, hoort bij de kop) → kop (16px) → intro (24px) → knoppen */
+.hero-keuze__tekst .labels {
+  margin-bottom: var(--ruimte-4);
+}
+.hero-keuze .acties {
+  margin-top: var(--ruimte-3);
+}
+/* Kruimelpad bovenin de hero, zoals in ontwerp A: klein en rustig */
+.kruimelpad {
+  margin-bottom: var(--ruimte-5);
+  font-size: var(--tekst-klein);
+}
+.kruimelpad ol {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Een › tussen de stappen, alleen visueel */
+.kruimelpad li + li::before {
+  content: "›";
+  margin-inline: var(--ruimte-2);
+  color: var(--kleur-tekst-zacht);
+}
+.kruimelpad a {
+  color: var(--kleur-tekst-zacht);
+  font-weight: 400;
+}
+.kruimelpad [aria-current="page"] {
+  font-weight: 700;
+}
+.hero-keuze h1 {
+  margin: 0 0 var(--ruimte-3);
+}
+.hero-keuze .intro {
+  margin: 0;
+}
+.acties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ruimte-3);
+  padding-top: var(--ruimte-2);
+}
+
+/* Collage: de foto's liggen los over elkaar, met een witte rand als een afdruk */
+.hero-keuze__collage {
+  position: relative;
+  min-height: 22rem;
+}
+.collage__foto {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  border: var(--ruimte-2) solid var(--kleur-wit);
+  border-radius: var(--radius-groot);
+  box-shadow: var(--schaduw);
+}
+.collage__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.collage__foto--groot {
+  inset: 0 0 3.5rem 2rem;
+}
+.collage__foto--klein {
+  bottom: 0;
+  left: 0;
+  width: 10rem;
+  height: 8rem;
+  transform: rotate(-3deg);
+}
+/* Een roze briefje. Witte tekst op dit roze haalt het contrast niet (3,6),
+   daarom het donkere roze uit de styleguide: wit erop geeft 5,8. */
+.collage__notitie {
+  position: absolute;
+  right: 0;
+  bottom: var(--ruimte-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ruimte-1);
+  width: 12rem;
+  margin: 0;
+  padding: var(--ruimte-3) var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-opvang-tekst);
+  color: var(--kleur-wit);
+  font-size: var(--tekst-klein);
+  line-height: 1.45;
+  transform: rotate(2deg);
+}
+.collage__notitie strong {
+  font-family: var(--font-kop);
+  font-size: var(--tekst-basis);
+}
+/* Groene ring die half onder de hero uitsteekt (alleen op een groter scherm, zie onderaan) */
+.hero-keuze__ring {
+  display: none;
+}
+
+/* ================= 2. SAMENWERKING ================= */
+/* Roze kaart: de hero erboven is groen, de tijdlijn eronder ook.
+   Zo komen er nooit twee vlakken met dezelfde kleur na elkaar. */
+.samenwerking {
+  display: grid;
+  gap: var(--ruimte-5);
+  padding: var(--ruimte-3);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-tint-roze);
+}
+.samenwerking__foto {
+  position: relative;
+  min-height: 20rem;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-groot);
+}
+.samenwerking__foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Een donkere overloop onderin, zodat de labels goed leesbaar blijven */
+.samenwerking__foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgb(43 39 53 / 35%));
+}
+.samenwerking__route {
+  position: absolute;
+  z-index: 1;
+  right: var(--ruimte-3);
+  bottom: var(--ruimte-3);
+  left: var(--ruimte-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ruimte-2);
+}
+.samenwerking__pijl {
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border-radius: var(--radius-rond);
+  background: var(--kleur-wit);
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+.samenwerking__tekst {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.samenwerking__tekst .intro {
+  margin: 0;
+}
+
+.voordelen {
+  display: grid;
+  gap: var(--ruimte-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.voordelen li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-2);
+  padding: var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-wit);
+}
+.voordelen h3,
+.voordelen p {
+  margin: 0;
+}
+.voordelen p {
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-klein);
+  line-height: 1.5;
+}
+
+/* ================= 3. TIJDLIJN: FOCUS PER MOMENT ================= */
+.momenten {
+  display: grid;
+  gap: var(--ruimte-4);
+  margin-top: var(--ruimte-5);
+}
+
+/* De tabs. Op een telefoon naast elkaar, op desktop onder elkaar (zie onderaan). */
+.momenten__tabs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--ruimte-2);
+}
+.momenten__tabs[hidden] {
+  display: none;
+}
+.momenten__tabs button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 3rem;
+  justify-content: center;
+  padding: var(--ruimte-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: rgb(255 255 255 / 55%);
+  color: var(--kleur-tekst-zacht);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.momenten__tabs button:hover {
+  background: var(--kleur-wit);
+}
+.momenten__tabs button[aria-selected="true"] {
+  border-color: var(--kleur-lijn);
+  background: var(--kleur-wit);
+  box-shadow: var(--schaduw);
+  color: var(--kleur-tekst);
+}
+.momenten__tabs button span {
+  color: var(--kleur-opvang-tekst);
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+.momenten__tabs button:nth-child(even) span {
+  color: var(--kleur-school-tekst);
+}
+/* Op een telefoon is er alleen ruimte voor het nummer. De leeftijd en titel staan er wel,
+   maar onzichtbaar: een schermlezer leest ze voor, en de titel staat ook in het moment zelf. */
+.momenten__tabs small,
+.momenten__tabs strong {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Zonder JavaScript staan alle momenten onder elkaar */
+.momenten__kaarten {
+  display: grid;
+  gap: var(--ruimte-4);
+}
+.moment {
+  display: grid;
+  gap: var(--ruimte-4);
+  padding: var(--ruimte-4);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-wit);
+  box-shadow: var(--schaduw);
+}
+.moment[hidden] {
+  display: none;
+}
+.moment__foto {
+  position: relative;
+  min-height: 16rem;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-groot);
+  background: var(--kleur-vlak);
+}
+.moment__foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.moment__foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 62%, rgb(43 39 53 / 35%));
+}
+/* Het nummer linksboven op de foto. Ook hier het donkere roze, voor genoeg contrast met wit. */
+.moment__nummer {
+  position: absolute;
+  z-index: 1;
+  top: var(--ruimte-3);
+  left: var(--ruimte-3);
+  display: grid;
+  place-items: center;
+  width: 3.375rem;
+  height: 3.375rem;
+  border: 5px solid rgb(255 255 255 / 75%);
+  border-radius: var(--radius-rond);
+  background: var(--kleur-opvang-tekst);
+  background-clip: padding-box;
+  color: var(--kleur-wit);
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+.moment__tekst {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-3);
+}
+.moment__tekst h3 {
+  margin: 0;
+  font-size: var(--kop-2);
+}
+.moment__tekst p {
+  margin: 0;
+  color: var(--kleur-tekst-zacht);
+}
+.moment__leeftijd {
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.moment__tip {
+  padding: var(--ruimte-3);
+  border-left: 4px solid var(--kleur-opvang);
+  border-radius: 0 var(--radius-klein) var(--radius-klein) 0;
+  background: var(--kleur-tint-roze);
+  font-size: var(--tekst-klein);
+}
+.moment__tekst .moment__tip {
+  color: var(--kleur-tekst);
+}
+
+/* Een nieuw moment komt zacht in beeld (alleen als de bezoeker beweging goed vindt) */
+@media (prefers-reduced-motion: no-preference) {
+  .moment__foto img {
+    animation: moment-in 360ms ease both;
+  }
+}
+@keyframes moment-in {
+  from { opacity: 0; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Leeftijdscheck */
+.leeftijdscheck {
+  display: grid;
+  gap: var(--ruimte-4);
+  align-items: end;
+  margin-top: var(--ruimte-5);
+  padding: var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-wit);
+}
+.leeftijdscheck[hidden] {
+  display: none;
+}
+.leeftijdscheck h3 {
+  margin-bottom: var(--ruimte-1);
+}
+.leeftijdscheck p {
+  margin: 0;
+  color: var(--kleur-tekst-zacht);
+}
+.leeftijdscheck label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ruimte-1);
+  font-size: var(--tekst-klein);
+  font-weight: 600;
+}
+/* Eigen pijltje in plaats van dat van de browser: zo staat het niet tegen de rand aan */
+.leeftijdscheck select {
+  min-height: 3rem;
+  padding: 0 calc(var(--ruimte-3) + 1.75rem) 0 var(--ruimte-3);
+  border: 2px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  appearance: none;
+  background: var(--kleur-wit) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%232B2735' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right var(--ruimte-3) center / 1rem;
+  color: var(--kleur-tekst);
+  font: inherit;
+  font-size: var(--tekst-basis);
+}
+/* De uitkomst verschijnt pas als er een maand en jaar gekozen is */
+.leeftijdscheck__uitkomst:empty {
+  display: none;
+}
+.leeftijdscheck__uitkomst {
+  grid-column: 1 / -1;
+  padding: var(--ruimte-2) var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-tint-groen);     /* dezelfde kleur als de sectie */
+}
+.leeftijdscheck__uitkomst > p {
+  padding-block: var(--ruimte-2);
+  color: var(--kleur-tekst);
+}
+
+/* Net als in ontwerp A: per stap de naam en de datum, met een dun lijntje ertussen.
+   Op een telefoon en tablet een regel per stap, op een groot scherm vijf naast elkaar (zie onderaan). */
+.leeftijdscheck__lijst {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.leeftijdscheck__lijst li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: var(--ruimte-3);
+  padding-block: var(--ruimte-2);
+  border-bottom: 1px solid rgb(43 39 53 / 0.08);
+}
+.leeftijdscheck__lijst li:last-child {
+  border-bottom: 0;
+}
+.leeftijdscheck__lijst strong {
+  font-family: var(--font-kop);
+}
+/* Kennismaken krijgt de nadruk, net als in de tijdlijn */
+.leeftijdscheck__lijst .is-belangrijk span {
+  font-weight: 700;
+  color: var(--kleur-school-tekst);
+}
+
+/* ================= 4. EEN DAG IN GROEP 1-2 ================= */
+.dag {
+  display: grid;
+  gap: var(--ruimte-6);
+  align-items: center;
+}
+/* Foto met een wit vlak erachter en een roze stip linksboven, zoals de foto's in ontwerp A */
+.foto-blok {
+  position: relative;
+  min-height: 21rem;
+  margin: 0;
+}
+.foto-blok::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 62%;
+  height: 65%;
+  border-radius: var(--radius-groot);
+  background: var(--kleur-wit);
+}
+.foto-blok::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: -0.6rem;
+  left: -0.6rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-rond);
+  background: var(--kleur-opvang);
+}
+.foto-blok img {
+  position: absolute;
+  z-index: 1;
+  inset: 0 0.75rem 0.75rem 0;
+  width: calc(100% - 0.75rem);
+  height: calc(100% - 0.75rem);
+  border-radius: var(--radius-groot);
+  object-fit: cover;
+}
+.dag .intro {
+  margin-bottom: var(--ruimte-4);
+}
+.dagritme {
+  margin: 0;
+  padding: var(--ruimte-2) var(--ruimte-4);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-wit);
+  list-style: none;
+}
+.dagritme li {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: var(--ruimte-3);
+  padding-block: var(--ruimte-3);
+  border-bottom: 1px solid var(--kleur-lijn);
+}
+.dagritme li:last-child {
+  border-bottom: 0;
+}
+.dagritme time {
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+
+/* ================= 5. ERVARINGEN ================= */
+.quotes {
+  display: grid;
+  gap: var(--ruimte-3);
+  margin-top: var(--ruimte-5);
+}
+.quote {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-4);
+  margin: 0;
+  padding: var(--ruimte-5);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-tint-groen);
+}
+.quote--roze {
+  background: var(--kleur-tint-roze);
+}
+.quote__teken {
+  height: 1.75rem;
+  color: var(--kleur-opvang);
+  font-family: var(--font-kop);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 0.8;
+}
+.quote blockquote {
+  margin: 0;
+  font-family: var(--font-kop);
+  font-size: var(--tekst-groot);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: var(--ruimte-3);
+  margin-top: auto;
+}
+.quote figcaption img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-rond);
+  object-fit: cover;
+}
+.quote figcaption span {
+  display: flex;
+  flex-direction: column;
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-klein);
+  line-height: 1.4;
+}
+.quote figcaption strong {
+  color: var(--kleur-tekst);
+  font-family: var(--font-kop);
+}
+/* Een zachtroze balk met een uitnodiging: valt op, maar is niet zwaar */
+.quotes__actie {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-4);
+  margin-top: var(--ruimte-4);
+  padding: var(--ruimte-4) var(--ruimte-5);
+  border-radius: var(--radius);
+  background: var(--kleur-opvang-licht);
+  color: var(--kleur-tekst);
+}
+.quotes__actie p {
+  margin: 0;
+  font-family: var(--font-kop);
+  font-size: var(--tekst-groot);
+  font-weight: 700;
+}
+
+/* De kaarten waaien mee als je er met de muis overheen gaat: ze hangen aan de bovenkant
+   en zwaaien een paar keer uit, steeds wat minder. Alleen met een muis, en niet als
+   de bezoeker minder beweging wil. De animatie gebruikt "rotate", dus de scheve stand
+   van de kaarten (met "transform") blijft gewoon staan. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .quote {
+    transform-origin: 50% 0;
+  }
+  /* De class komt uit js/pagina-b.js: zo zwaait de kaart ook uit als de muis er al af is */
+  .quote--waait {
+    animation: waaien 1.4s ease-out;
+  }
+}
+@keyframes waaien {
+  0%   { rotate: 0deg; }
+  15%  { rotate: 3deg; }
+  35%  { rotate: -2.2deg; }
+  55%  { rotate: 1.4deg; }
+  75%  { rotate: -0.6deg; }
+  100% { rotate: 0deg; }
+}
+
+/* ================= 6. VERGELIJKEN ================= */
+#vergelijken .intro {
+  max-width: 47.5rem;
+}
+.download {
+  display: grid;
+  gap: var(--ruimte-5);
+  align-items: center;
+  margin-top: var(--ruimte-5);
+  padding: var(--ruimte-5) var(--ruimte-4);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-wit);
+}
+.download__tekst {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-3);
+}
+.download__tekst h3 {
+  margin: 0;
+  font-size: var(--kop-2);
+}
+.download__tekst p {
+  margin: 0;
+  color: var(--kleur-tekst-zacht);
+}
+.download__tekst small {
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-klein);
+}
+/* Het voorbeeld van de PDF: een vel papier, iets scheef */
+.download__voorbeeld {
+  position: relative;
+  padding: var(--ruimte-5) var(--ruimte-5) var(--ruimte-5) var(--ruimte-6);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-vlak);
+  box-shadow: 0 18px 40px rgb(43 39 53 / 12%);
+}
+.download__voorbeeld::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ruimte-4);
+  width: 3px;
+  background: linear-gradient(var(--kleur-opvang), var(--kleur-school));
+}
+.voorbeeld__boven {
+  display: block;
+  color: var(--kleur-opvang-tekst);
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.voorbeeld__titel {
+  display: block;
+  margin-bottom: var(--ruimte-4);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-groot);
+  line-height: 1.3;
+}
+.download__voorbeeld ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.download__voorbeeld li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: var(--ruimte-2);
+  margin-bottom: var(--ruimte-3);
+}
+.download__voorbeeld li span {
+  color: var(--kleur-school-tekst);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+}
+/* Onder elke vraag twee schrijflijntjes */
+.download__voorbeeld li strong {
+  padding-bottom: var(--ruimte-4);
+  background:
+    linear-gradient(var(--kleur-lijn), var(--kleur-lijn)) bottom / 100% 1px no-repeat,
+    linear-gradient(var(--kleur-lijn), var(--kleur-lijn)) bottom 0.75rem left / 100% 1px no-repeat;
+  font-family: var(--font-kop);
+  font-size: var(--tekst-klein);
+  line-height: 1.4;
+}
+.voorbeeld__meer {
+  display: block;
+  padding-left: 2.5rem;
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-klein);
+}
+
+/* Links naar onafhankelijke informatie */
+.bronnen {
+  display: grid;
+  gap: var(--ruimte-3);
+  margin-top: var(--ruimte-5);
+}
+.bronnen h3 {
+  margin: 0;
+}
+.bronnen .bovenkop {
+  white-space: nowrap;
+}
+.bronnen a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--ruimte-1);
+  min-height: 8rem;
+  padding: var(--ruimte-4) 3.5rem var(--ruimte-4) var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-wit);
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-klein);
+  font-weight: 400;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.bronnen a:hover {
+  box-shadow: var(--schaduw);
+  transform: translateY(-2px);
+}
+.bronnen__naam {
+  color: var(--kleur-link);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-basis);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.bronnen__pijl {
+  position: absolute;
+  top: var(--ruimte-4);
+  right: var(--ruimte-4);
+  color: var(--kleur-tekst);
+  font-size: var(--tekst-groot);
+}
+
+/* ================= 7. VEELGESTELDE VRAGEN ================= */
+.vragen {
+  display: grid;
+  gap: var(--ruimte-6);
+}
+.vragen .intro {
+  margin: 0;
+}
+/* Direct de contactgegevens onder "Bel of mail ons gerust" */
+.vragen__contact {
+  display: grid;
+  gap: var(--ruimte-2);
+  margin: var(--ruimte-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.vragen__contact li {
+  display: flex;
+  align-items: center;
+  gap: var(--ruimte-3);
+}
+.vragen__contact a {
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+.vragen__lijst {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ruimte-2);
+}
+.vragen__lijst details {
+  border: 1px solid var(--kleur-lijn);
+  border-radius: var(--radius);
+  background: var(--kleur-wit);
+}
+.vragen__lijst summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-4);
+  min-height: 4.25rem;
+  padding: var(--ruimte-3) var(--ruimte-4);
+  font-family: var(--font-kop);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+.vragen__lijst summary::-webkit-details-marker {
+  display: none;
+}
+.vragen__lijst summary span {
+  display: grid;
+  place-items: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  flex: none;
+  border-radius: var(--radius-rond);
+  background: var(--kleur-opvang-licht);
+  color: var(--kleur-opvang-tekst);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-groot);
+  font-weight: 700;
+  line-height: 1;
+}
+/* Dicht: een plus. Open: een min (het echte minteken −, even breed als de plus). */
+.vragen__teken::before {
+  content: "+";
+}
+.vragen__lijst details[open] .vragen__teken::before {
+  content: "−";
+}
+.vragen__lijst details p {
+  margin: 0;
+  padding: 0 var(--ruimte-4) var(--ruimte-4);
+  color: var(--kleur-tekst-zacht);
+}
+
+/* ================= 8. KENNISMAKEN ================= */
+.uitnodiging {
+  display: grid;
+  overflow: hidden;
+  border-radius: var(--radius-groot);
+  background: var(--kleur-wit);
+}
+.uitnodiging__tekst {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-2);
+  padding: var(--ruimte-5) var(--ruimte-4);
+}
+.uitnodiging__tekst h2 {
+  margin: 0;
+}
+.uitnodiging__tekst > p:not(.bovenkop) {
+  margin-bottom: var(--ruimte-2);
+  color: var(--kleur-tekst-zacht);
+}
+.uitnodiging__foto {
+  min-height: 22rem;
+  margin: 0;
+}
+.uitnodiging__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.herinnering {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-2);
+  width: 100%;
+  margin-top: var(--ruimte-4);
+  padding: var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-tint-groen);
+}
+.herinnering h3,
+.herinnering p {
+  margin: 0;
+}
+.herinnering p {
+  color: var(--kleur-tekst-zacht);
+  font-size: var(--tekst-klein);
+}
+.herinnering .knop {
+  margin-top: var(--ruimte-2);
+  padding-block: var(--ruimte-2);
+}
+
+/* ================= FOOTER ================= */
+.voet {
+  display: grid;
+  gap: var(--ruimte-5);
+  width: var(--blok-breedte);
+  margin: 0 auto;     /* de 32px erboven komt van het laatste blok, net als tussen alle andere blokken */
+  padding: var(--ruimte-6) var(--blok-zijkant);
+  border-radius: var(--radius-groot) var(--radius-groot) 0 0;
+  background: var(--kleur-vlak);
+  color: var(--kleur-tekst-zacht);
+}
+.voet > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ruimte-1);
+}
+.voet p {
+  margin: 0;
+}
+.voet__titel {
+  color: var(--kleur-tekst);
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+.voet__noot {
+  max-width: none;
+  padding-top: var(--ruimte-4);
+  border-top: 1px solid var(--kleur-lijn);
+  font-size: var(--tekst-klein);
+}
+
+
+/* ================= TABLET (vanaf 768px) ================= */
+@media (min-width: 48rem) {
+  :root {
+    --blok-breedte: min(87.5rem, 100% - 2 * var(--ruimte-4));
+  }
+
+  /* Header zoals in ontwerp A: blijft bovenaan staan tijdens het scrollen */
+  .kop {
+    position: sticky;
+    top: 0;
+  }
+  .kop .knop {
+    display: inline-block;
+  }
+  html {
+    scroll-padding-top: 5.5rem;
+  }
+
+  .blok {
+    padding-block: var(--ruimte-8);
+  }
+  /* Een blok zonder kleur heeft minder ruimte nodig: er is geen vlak om "in" te staan */
+  .blok:not(.blok--roze, .blok--groen) {
+    padding-block: var(--ruimte-7);
+  }
+
+  .hero-keuze__collage {
+    min-height: 30rem;
+  }
+  .collage__foto--groot {
+    inset: 0 0 5rem 3rem;
+  }
+  .collage__foto--klein {
+    width: 14.5rem;
+    height: 11.25rem;
+  }
+  .collage__notitie {
+    right: calc(-1 * var(--ruimte-3));
+    bottom: var(--ruimte-4);
+    width: 15rem;
+  }
+
+  .samenwerking {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ruimte-5) var(--ruimte-6);
+    padding: var(--ruimte-5);
+  }
+  .samenwerking__foto {
+    min-height: 25rem;
+  }
+  .voordelen {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .moment {
+    grid-template-columns: minmax(16rem, 0.9fr) 1.1fr;
+    gap: var(--ruimte-5);
+    align-items: center;
+  }
+  .moment__foto {
+    height: 100%;
+    min-height: 22.5rem;
+  }
+
+  .leeftijdscheck {
+    grid-template-columns: 1fr 1fr;
+    padding: var(--ruimte-5);
+  }
+  .leeftijdscheck > div:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .quotes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* De quotes liggen een beetje speels scheef */
+  .quote--roze {
+    transform: translateY(1.125rem) rotate(-1deg);
+  }
+  .quote:last-of-type {
+    grid-column: 1 / -1;
+    transform: rotate(1deg);
+  }
+  .quotes__actie {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .download {
+    grid-template-columns: 0.85fr 1.15fr;
+    padding: var(--ruimte-5);
+  }
+  .download__voorbeeld {
+    transform: rotate(1.2deg);
+  }
+
+  .bronnen {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bronnen > div {
+    grid-column: 1 / -1;
+  }
+
+  .uitnodiging__tekst {
+    padding: var(--ruimte-5) var(--ruimte-6);
+  }
+
+  .voet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .voet__noot {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* ================= DESKTOP (vanaf 1024px) ================= */
+@media (min-width: 64rem) {
+  .kop__nav {
+    display: block;
+  }
+  .kop .knop {
+    margin-left: var(--ruimte-4);
+  }
+
+  /* Hero: tekst links, collage rechts */
+  .hero-keuze {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: var(--ruimte-6);
+    align-items: center;
+    padding-block: var(--ruimte-7);
+  }
+  .hero-keuze__collage {
+    min-height: 29rem;
+  }
+  .hero-keuze__ring {
+    position: absolute;
+    right: var(--ruimte-4);
+    bottom: -5rem;
+    display: block;
+    width: 13rem;
+    height: 13rem;
+    border: 1rem solid var(--kleur-school);
+    border-radius: var(--radius-rond);
+    pointer-events: none;
+  }
+
+  .samenwerking__tekst {
+    padding-right: var(--ruimte-4);
+  }
+  .voordelen {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .voordelen li {
+    min-height: 12rem;
+  }
+
+  /* Tijdlijn: de tabs links onder elkaar, het gekozen moment rechts */
+  .momenten {
+    grid-template-columns: 0.78fr 1.22fr;
+  }
+  .momenten__tabs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ruimte-2);
+    overflow: visible;
+  }
+  .momenten__tabs button {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr;
+    align-items: start;
+    padding: var(--ruimte-3) var(--ruimte-4);
+    text-align: left;
+  }
+  .momenten__tabs button[aria-selected="true"] {
+    transform: translateX(var(--ruimte-2));
+  }
+  .momenten__tabs button span {
+    grid-row: 1 / 3;
+  }
+  .momenten__tabs small,
+  .momenten__tabs strong {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+  .momenten__tabs small {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .momenten__tabs strong {
+    font-family: var(--font-kop);
+    font-size: var(--tekst-basis);
+  }
+  /* Zonder JavaScript (geen tabs) gebruiken de momenten de hele breedte */
+  .momenten__tabs[hidden] + .momenten__kaarten {
+    grid-column: 1 / -1;
+  }
+  .moment {
+    min-height: 25.6rem;
+  }
+
+  .leeftijdscheck {
+    grid-template-columns: 1fr 13.75rem 13.75rem;
+  }
+  .leeftijdscheck > div:first-child {
+    grid-column: auto;
+  }
+  /* Vijf stappen naast elkaar, met een lijntje ertussen: de naam boven de datum */
+  .leeftijdscheck__uitkomst {
+    padding: var(--ruimte-4) var(--ruimte-2);
+  }
+  .leeftijdscheck__lijst {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .leeftijdscheck__lijst li {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--ruimte-1);
+    padding: 0 var(--ruimte-3);
+    border-bottom: 0;
+    border-left: 1px solid rgb(43 39 53 / 0.1);
+  }
+  .leeftijdscheck__lijst li:first-child {
+    border-left: 0;
+  }
+
+  .dag {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: var(--ruimte-7);
+  }
+  .foto-blok {
+    min-height: 27rem;
+  }
+
+  .quotes {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .quote {
+    min-height: 24.4rem;
+  }
+  .quote:last-of-type {
+    grid-column: auto;
+  }
+
+  .download {
+    gap: var(--ruimte-7);
+    min-height: 23.75rem;
+  }
+
+  .bronnen {
+    grid-template-columns: 0.7fr 1fr 1fr;
+  }
+  .bronnen > div {
+    grid-column: auto;
+    justify-content: center;
+    padding-right: var(--ruimte-4);
+  }
+
+  .vragen {
+    grid-template-columns: 0.75fr 1.25fr;
+    gap: var(--ruimte-8);
+    width: min(var(--breedte-max), 100% - 2 * var(--ruimte-4));
+    padding-inline: 0;
+  }
+
+  /* Kennismaken: tekst links, foto rechts */
+  .uitnodiging {
+    grid-template-columns: 1.2fr 0.8fr;
+    min-height: 35rem;
+  }
+  .uitnodiging__tekst {
+    justify-content: center;
+  }
+  .uitnodiging__foto {
+    min-height: 0;
+  }
+}
+
+/* ================= BREED SCHERM (vanaf 1280px) ================= */
+/* Tekst en collage even breed: zo passen de twee knoppen naast elkaar */
+@media (min-width: 80rem) {
+  .hero-keuze {
+    grid-template-columns: 1fr 1fr;
+  }
+}

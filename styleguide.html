@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <!-- Zorgt dat de pagina op mobiel op de juiste breedte wordt getoond -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stijlgids – Kinderopvang Pluk & Basisschool De Boomgaard</title>
+
+  <!-- Eigen lettertypes (geen Google Fonts, zie css/fonts.css) -->
+  <link rel="stylesheet" href="css/fonts.css">
+
+  <!-- Eerst de tokens, dan de basisstijlen die de tokens gebruiken -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pagina.css">
+
+  <!-- Opmaak die alleen voor deze stijlgids-pagina nodig is -->
+  <style>
+    .gids { max-width: var(--breedte-max); margin: 0 auto; padding: var(--ruimte-6) 1.25rem; }
+    .gids section { margin-bottom: var(--ruimte-7); }
+    .rij { display: flex; flex-wrap: wrap; gap: var(--ruimte-3); align-items: center; }
+    .staal { width: 10rem; border-radius: var(--radius); overflow: hidden; background: var(--kleur-kaart); box-shadow: var(--schaduw); }
+    .staal div { height: 5rem; }
+    .staal p { margin: 0; padding: var(--ruimte-2) var(--ruimte-3); font-size: var(--tekst-klein); }
+    .gids .kaarten { max-width: 48rem; }
+    .gids .foto { max-width: 26rem; }
+  </style>
+</head>
+<body>
+  <main class="gids">
+    <h1>Stijlgids</h1>
+    <p>Kinderopvang Pluk &amp; Basisschool De Boomgaard: twee organisaties onder één dak.
+      Hier staan alle bouwstenen van de landingspagina bij elkaar.</p>
+
+    <section>
+      <h2>Kleuren</h2>
+      <h3>Basis: de samenwerking</h3>
+      <div class="rij">
+        <div class="staal"><div style="background:var(--kleur-hoofd)"></div><p><strong>Inkt</strong> (hoofd + tekst)<br>#2B2735</p></div>
+        <div class="staal"><div style="background:var(--kleur-hoofd-licht)"></div><p><strong>Neutraal licht</strong><br>#EAE5DF</p></div>
+        <div class="staal"><div style="background:var(--kleur-achtergrond)"></div><p><strong>Achtergrond</strong><br>#FFFFFF</p></div>
+        <div class="staal"><div style="background:var(--kleur-vlak)"></div><p><strong>Vlak</strong><br>#F6F5F3</p></div>
+        <div class="staal"><div style="background:var(--kleur-tint-roze)"></div><p><strong>Tint roze</strong> (paneel)<br>#FFF3F6</p></div>
+        <div class="staal"><div style="background:var(--kleur-tint-groen)"></div><p><strong>Tint groen</strong> (paneel)<br>#F2FAF4</p></div>
+        <div class="staal"><div style="background:var(--kleur-kaart)"></div><p><strong>Kaart</strong><br>#FFFFFF</p></div>
+      </div>
+
+      <h3 style="margin-top:var(--ruimte-5)">Accenten: Pluk (roze) en De Boomgaard (groen)</h3>
+      <div class="rij">
+        <div class="staal"><div style="background:var(--kleur-opvang)"></div><p><strong>Roze fel</strong> (decoratie)<br>#E8457C</p></div>
+        <div class="staal"><div style="background:var(--kleur-opvang-tekst)"></div><p><strong>Roze tekst</strong><br>#B8285C</p></div>
+        <div class="staal"><div style="background:var(--kleur-opvang-licht)"></div><p><strong>Roze licht</strong><br>#FFE1EB</p></div>
+        <div class="staal"><div style="background:var(--kleur-school)"></div><p><strong>Groen fel</strong> (decoratie)<br>#3FAE5F</p></div>
+        <div class="staal"><div style="background:var(--kleur-school-tekst)"></div><p><strong>Groen tekst</strong><br>#23793D</p></div>
+        <div class="staal"><div style="background:var(--kleur-school-licht)"></div><p><strong>Groen licht</strong><br>#DDF3E2</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Twee huisstijlen, één pagina</h2>
+      <span class="duo-lijn"></span>
+      <p>De pagina heeft één gezamenlijke stijl in warme inktkleur, want het gaat over
+        wat opvang en school <em>samen</em> doen. Roze en groen komen klein maar vaak terug:
+        in het logo, de labels, de lijntjes, de kaarten, de tijdlijn en de vormen achter de foto's.</p>
+
+      <p><a class="duo-logo" href="#">
+        <span class="duo-logo__opvang">Pluk</span>
+        <span class="duo-logo__en">&amp;</span>
+        <span class="duo-logo__school">De Boomgaard</span>
+      </a></p>
+
+      <div class="rij">
+        <span class="label label--opvang">Kinderopvang Pluk</span>
+        <span class="label label--school">Basisschool De Boomgaard</span>
+        <span class="label label--samen">Samen</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Typografie</h2>
+      <h1>Kop 1: Van opvang naar school</h1>
+      <h2>Kop 2: Wat merkt je kind ervan?</h2>
+      <h3>Kop 3: Bekende gezichten</h3>
+      <p style="font-size:var(--tekst-groot)">Introtekst: Je kind kent het gebouw al. Ontdek wat de stap naar groep 1 betekent.</p>
+      <p>Lopende tekst: koppen in Nunito (afgerond en vriendelijk), lopende tekst in Nunito Sans
+        (rustig en goed leesbaar). Teksten schrijven we op B1-niveau: korte zinnen en gewone woorden.
+        <a href="#">Dit is een link</a>.</p>
+      <p style="font-size:var(--tekst-klein);color:var(--kleur-tekst-zacht)">Kleine tekst, bijvoorbeeld voor de privacytekst bij een formulier.</p>
+    </section>
+
+    <section>
+      <h2>Knoppen</h2>
+      <div class="rij">
+        <a class="knop" href="#">Plan een kennismaking</a>
+        <a class="knop knop--secundair" href="#">Wanneer moet ik aanmelden?</a>
+      </div>
+      <p style="margin-top:var(--ruimte-3);font-size:var(--tekst-klein)">Probeer ook de Tab-toets: je ziet dan de focusrand voor toetsenbordgebruikers.</p>
+    </section>
+
+    <section>
+      <h2>Foto's</h2>
+      <p>Elke foto krijgt een afgerond vlak en een rondje erachter, in roze en groen.</p>
+      <div class="rij" style="gap:var(--ruimte-6)">
+        <figure class="foto foto--roze"><img src="img/groep12-tekenen.webp" width="1000" height="667" alt="Een juf tekent samen met een kleuter"></figure>
+        <figure class="foto foto--groen"><img src="img/kinderen2.jpg" width="600" height="415" alt="Kleuters knutselen samen aan tafel in de klas"></figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>Kaarten</h2>
+      <p>De gekleurde rand wisselt tussen roze en groen.</p>
+      <ul class="kaarten">
+        <li class="kaart">
+          <span class="label label--samen">Warme overdracht</span>
+          <h3>Bekende gezichten</h3>
+          <p>De pedagogisch medewerker en de juf van groep 1 kennen elkaar.</p>
+        </li>
+        <li class="kaart">
+          <span class="label label--opvang">Kinderopvang Pluk</span>
+          <h3>Na school naar de BSO</h3>
+          <p>Een label in de accentkleur laat zien welke organisatie iets regelt.</p>
+        </li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

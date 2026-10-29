@@ -1,0 +1,5 @@
+# Bestanden van macOS
+.DS_Store
+
+# De presentatie blijft lokaal (de repository is openbaar)
+*.pptx

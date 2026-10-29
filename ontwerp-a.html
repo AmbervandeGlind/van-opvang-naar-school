@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<!-- lang="nl" vertelt schermlezers en vertaaltools dat de pagina Nederlands is (WCAG-eis) -->
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Van opvang naar school | Basisschool De Boomgaard</title>
+  <!-- De korte omschrijving die Google en apps als WhatsApp tonen bij een gedeelde link -->
+  <meta name="description" content="Je kind gaat naar Kinderopvang Pluk? Ontdek hoe de stap naar Basisschool De Boomgaard werkt, in hetzelfde gebouw. Plan een vrijblijvende kennismaking.">
+
+  <!-- Eigen lettertypes (geen Google Fonts, zie css/fonts.css) -->
+  <!-- preload: het lettertype van de koppen meteen ophalen, want de titel staat bovenaan.
+       crossorigin is verplicht bij lettertypes, ook van de eigen website. -->
+  <link rel="preload" href="fonts/nunito.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pagina.css">
+
+  <!-- JavaScript voor de interactie. "defer" = pas uitvoeren als de HTML helemaal geladen is.
+       Het kleine script ervoor zet direct de class "js" op de pagina. In de CSS staan sommige
+       onderdelen (menuknop, sticky knop) alleen aan met die class: zonder JavaScript werken ze
+       niet, dus dan laten we ze ook niet zien. -->
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="js/pagina.js" defer></script>
+</head>
+<body>
+
+  <!-- Skiplink: toetsenbordgebruikers kunnen met één Tab direct naar de inhoud springen (WCAG) -->
+  <a class="skiplink" href="#inhoud">Direct naar de inhoud</a>
+
+  <!-- ================= HEADER + NAVIGATIE ================= -->
+  <!-- Keuze: de pagina staat op de website van De Boomgaard. Pluk verwijst ouders hiernaartoe
+       (via nieuwsbrief, QR-code of de opvangwebsite). Daarom is dit de header van de school.
+       <nav> vertelt schermlezers dat dit de navigatie is. De menulinks zijn fictief (#). -->
+  <header class="kop">
+    <a class="logo-school" href="#" aria-label="Basisschool De Boomgaard, naar de homepage">
+      <!-- Een simpel boompje als logo, getekend met SVG (vormen in code) -->
+      <svg class="logo-school__icoon" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="17.5" y="22" width="5" height="15" rx="2.5" />
+        <circle cx="20" cy="15" r="13" />
+      </svg>
+      <span>
+        <span class="logo-school__klein">Basisschool</span>
+        De Boomgaard
+      </span>
+    </a>
+    <!-- Menuknop, alleen op mobiel en tablet. aria-expanded vertelt schermlezers of het menu
+         open (true) of dicht (false) is. aria-controls wijst naar het menu dat hij opent. -->
+    <button class="kop__menuknop" type="button" aria-expanded="false" aria-controls="hoofdmenu">
+      <svg class="kop__icoon-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="kop__icoon-dicht" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      Menu
+    </button>
+    <nav class="kop__nav" id="hoofdmenu" aria-label="Hoofdmenu">
+      <ul>
+        <li><a href="#">Onze school</a></li>
+        <li><a href="#">Onderwijs</a></li>
+        <!-- aria-current="page": in dit deel van de website ben je nu -->
+        <li><a href="#" aria-current="page">Ouders</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="knop knop--klein" href="#kennismaken">Plan een kennismaking</a>
+  </header>
+
+  <!-- Kruimelpad: laat zien waar deze pagina binnen de schoolwebsite staat -->
+  <nav class="kruimelpad" aria-label="Kruimelpad">
+    <ol>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Ouders</a></li>
+      <li><span aria-current="page">Van opvang naar school</span></li>
+    </ol>
+  </nav>
+
+  <!-- <main> = de hoofdinhoud. Er is er maar één per pagina. -->
+  <main id="inhoud">
+
+    <!-- ================= 1. HERO ================= -->
+    <!-- MUST: gezamenlijke afzender + primaire CTA. Raakt direct het kernprobleem.
+         "deco" voegt decoratieve cirkels toe in de achtergrond van de sectie.
+
+         TWEE VERSIES VAN DE HERO:
+         - met "hero--vol": de foto vult de hele hero, met de tekst in een witte kaart erop
+         - zonder "hero--vol": tekst links en foto rechts (de vorige versie)
+         Wil je terug naar de vorige versie? Haal dan alleen "hero--vol" hieronder weg. -->
+    <section class="hero hero--vol deco deco--hero" aria-labelledby="hero-titel">
+      <div class="hero__tekst">
+        <p class="hero__afzender">
+          <span class="label label--opvang">Kinderopvang Pluk</span>
+          <span class="label label--school">Basisschool De Boomgaard</span>
+        </p>
+        <!-- Er is precies één <h1> per pagina: de hoofdtitel -->
+        <h1 id="hero-titel">Jullie opvang, ook jullie school?</h1>
+        <p class="hero__intro">Je kind kent het gebouw en de gezichten al. Ontdek rustig wat de stap
+          naar groep 1 betekent.</p>
+        <div class="hero__acties">
+          <a class="knop" href="#kennismaken">Plan een kennismaking</a>
+          <!-- Geen vraag, maar wat je er vindt: de stappen per leeftijd -->
+          <a class="knop knop--secundair" href="#tijdlijn">Bekijk de stappen per leeftijd</a>
+        </div>
+      </div>
+      <!-- Stockfoto (Unsplash). In een echt traject: eigen foto's, alleen met schriftelijke toestemming van ouders.
+           width/height voorkomen dat de pagina verspringt tijdens het laden.
+           De hero-foto laadt direct (fetchpriority), de andere foto's pas als je ernaartoe scrolt (loading="lazy").
+           srcset + sizes: de browser kiest zelf het kleinste bestand dat scherp genoeg is.
+           Een telefoon laadt zo de versie van 800px, een groot scherm de volledige foto. -->
+      <!-- Extra cirkels aan de rechterkant van de hero (alleen op een groot scherm, zie CSS).
+           Een lege span, want ::before en ::after van de hero zelf zijn al in gebruik. -->
+      <span class="hero__cirkels" aria-hidden="true"></span>
+      <figure class="foto foto--roze hero__foto">
+        <img src="img/hero-kinderen.webp"
+             srcset="img/hero-kinderen-800.webp 800w, img/hero-kinderen-1280.webp 1280w, img/hero-kinderen.webp 2158w"
+             sizes="100vw"
+             width="2158" height="1064" fetchpriority="high"
+             alt="Een groep lachende kinderen met rugzakken rent hand in hand door een gang van de school">
+      </figure>
+    </section>
+
+    <!-- ================= 2. DE SAMENWERKING ================= -->
+    <!-- MUST: het kernprobleem is de perceptie. Daarom concreet maken wat ouders en kind merken. -->
+    <section class="sectie sectie--wit" id="samenwerking" aria-labelledby="samenwerking-titel">
+      <!-- "split" = tekst en foto naast elkaar op een groot scherm, onder elkaar op mobiel.
+           De vier kenmerken staan in de tekstkolom, zodat tekst en kenmerken één geheel vormen.
+           Kenmerken als icoon + korte tekst (in plaats van zware kaarten) houden de sectie licht. -->
+      <div class="split split--onder">
+        <div>
+          <span class="duo-lijn" aria-hidden="true"></span>
+          <h2 id="samenwerking-titel">Twee organisaties, één plek voor je kind</h2>
+          <p class="intro">Pluk en De Boomgaard zijn twee aparte organisaties, maar we werken elke dag samen
+            in hetzelfde gebouw. Je kind kent de weg hier al.</p>
+
+          <h3 class="kenmerken__intro">Dit merkt je kind van de samenwerking:</h3>
+          <!-- Een lijst (<ul>). Schermlezers melden dan: "lijst, 4 items".
+               De icoontjes zijn SVG (vormen in code) en alleen decoratief (aria-hidden). -->
+          <ul class="kenmerken">
+            <li class="kenmerk">
+              <span class="kenmerk__icoon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9H15v-6H9v6H3z"/></svg>
+              </span>
+              <div>
+                <h4>Hetzelfde gebouw</h4>
+                <p>Groep 1 zit een paar deuren verder.</p>
+              </div>
+            </li>
+            <li class="kenmerk">
+              <span class="kenmerk__icoon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-8.6-8.6A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8.6 4.4C19 15.6 12 20 12 20z"/></svg>
+              </span>
+              <div>
+                <h4>Warme overdracht</h4>
+                <p>De opvang en de juf bespreken, met jouw goedkeuring, de behoeften en eigenschappen van jouw kind.</p>
+              </div>
+            </li>
+            <li class="kenmerk">
+              <span class="kenmerk__icoon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 10h.01M15 10h.01"/></svg>
+              </span>
+              <div>
+                <h4>Bekende gezichten</h4>
+                <p>Kinderen van Pluk komen al eens kijken in de kleutergroep.</p>
+              </div>
+            </li>
+            <li class="kenmerk">
+              <span class="kenmerk__icoon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+              </span>
+              <div>
+                <h4>BSO in hetzelfde gebouw</h4>
+                <p>Na school gewoon hier blijven. Geen extra brengen of halen.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <figure class="foto foto--groen">
+          <img src="img/kinderen2.jpg" width="600" height="415" loading="lazy"
+               alt="Kleuters knutselen samen aan tafel in de klas. Een meisje in een rood jurkje kijkt lachend om.">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= 3. TIJDLIJN ================= -->
+    <!-- MUST: haalt de grootste frustratie weg, namelijk onzekerheid over timing.
+         De nadruk ligt op KENNISMAKEN, want dat is de vervolgstap van deze pagina.
+         Op een groot scherm staat de tijdlijn horizontaal, zodat de hele breedte gebruikt wordt. -->
+    <section class="sectie sectie--paneel deco deco--tijdlijn" id="tijdlijn" aria-labelledby="tijdlijn-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <h2 id="tijdlijn-titel">Wanneer moet ik wat doen?</h2>
+
+      <!-- <ol> = een genummerde lijst, want de volgorde is hier belangrijk.
+           De teksten zijn bewust kort: één of twee zinnen per stap. -->
+      <ol class="tijdlijn">
+        <li class="tijdlijn__stap">
+          <p class="tijdlijn__leeftijd">Rond 2,5 jaar</p>
+          <h3>Oriënteren</h3>
+          <p>Bekijk verschillende scholen en vraag de pedagogisch medewerker hoe het met je kind gaat.</p>
+        </li>
+        <li class="tijdlijn__stap tijdlijn__stap--belangrijk">
+          <p class="tijdlijn__leeftijd">Rond 3 jaar</p>
+          <h3>Kennismaken</h3>
+          <p>Kom kijken op De Boomgaard en stel al je vragen tijdens een rondleiding.</p>
+          <a class="knop knop--klein" href="#kennismaken">Plan een kennismaking</a>
+        </li>
+        <li class="tijdlijn__stap">
+          <p class="tijdlijn__leeftijd">Vanaf 3 jaar</p>
+          <h3>Aanmelden</h3>
+          <!-- AANNAME: de echte termijn verschilt per gemeente en moet gecheckt worden.
+               In het echte CMS is deze datum een apart, aanpasbaar veld (FR-07). -->
+          <p>Meld je kind het liefst rond de derde verjaardag aan. Dan is er zeker plek.</p>
+        </li>
+        <li class="tijdlijn__stap">
+          <p class="tijdlijn__leeftijd">3 jaar en 10 maanden</p>
+          <h3>Wennen</h3>
+          <p>Je kind komt een paar ochtenden wennen in groep 1, samen met de pedagogisch medewerker.</p>
+        </li>
+        <li class="tijdlijn__stap">
+          <p class="tijdlijn__leeftijd">4 jaar</p>
+          <h3>Groep 1 en BSO</h3>
+          <p>De dagopvang stopt. Pluk regelt de overstap naar de BSO met je mee.</p>
+        </li>
+      </ol>
+
+      <!-- COULD: leeftijdscheck. De tijdlijn, maar dan met de datums voor jouw kind.
+           "hidden": zonder JavaScript werkt de check niet, dus dan is hij ook niet te zien.
+           AVG: de berekening gebeurt alleen in de browser. Er wordt niets opgeslagen of verstuurd. -->
+      <div class="leeftijdscheck" hidden>
+        <div>
+          <h3>Wat betekent dit voor jouw kind?</h3>
+          <p>Kies de geboortemaand van je kind. Dan zie je per stap wanneer het zover is.</p>
+          <div class="velden-naast velden-naast--vast">
+            <div>
+              <label class="veld__sublabel" for="check-maand">Maand</label>
+              <select id="check-maand">
+                <option value="">Kies</option>
+                <option value="1">januari</option>
+                <option value="2">februari</option>
+                <option value="3">maart</option>
+                <option value="4">april</option>
+                <option value="5">mei</option>
+                <option value="6">juni</option>
+                <option value="7">juli</option>
+                <option value="8">augustus</option>
+                <option value="9">september</option>
+                <option value="10">oktober</option>
+                <option value="11">november</option>
+                <option value="12">december</option>
+              </select>
+            </div>
+            <div>
+              <label class="veld__sublabel" for="check-jaar">Jaar</label>
+              <select id="check-jaar">
+                <option value="">Kies</option>
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+              </select>
+            </div>
+          </div>
+          <p class="veld__hulp">Dit wordt alleen op je eigen telefoon of computer berekend. We slaan niets op.</p>
+        </div>
+        <!-- aria-live: een schermlezer leest de uitkomst voor zodra die verandert -->
+        <div class="leeftijdscheck__uitkomst" aria-live="polite">
+          <p>Kies de maand en het jaar. Dan verschijnen hier de datums.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4. EEN DAG IN GROEP 1-2 ================= -->
+    <!-- MUST: zonder vertrouwen in de kwaliteit is gemak geen reden om te kiezen -->
+    <section class="sectie" id="groep-1-2" aria-labelledby="groep-titel">
+      <div class="split split--omgekeerd">
+        <div>
+          <span class="duo-lijn" aria-hidden="true"></span>
+          <h2 id="groep-titel">Zo ziet een dag in groep 1-2 eruit</h2>
+          <p>Bij De Boomgaard leren kleuters vooral door te spelen. We kijken goed naar wat elk kind al kan
+            en wat het nodig heeft om verder te groeien.</p>
+
+          <!-- <dl> = een "definitielijst": een tijd met een beschrijving erbij -->
+          <dl class="dagritme">
+            <div><dt>8.30</dt><dd>Inloop en samen in de kring</dd></div>
+            <div><dt>9.15</dt><dd>Spelen en werken in hoeken, zoals de bouwhoek en de leeshoek</dd></div>
+            <div><dt>10.15</dt><dd>Fruit eten en buiten spelen</dd></div>
+            <div><dt>11.00</dt><dd>Taal, tellen of muziek in kleine groepjes</dd></div>
+            <div><dt>12.00</dt><dd>Samen lunchen in de klas</dd></div>
+            <div><dt>14.00</dt><dd>Einde schooldag en door naar de BSO of naar huis</dd></div>
+          </dl>
+
+          <!-- link-pijl: deze link stuurt je naar een andere pagina -->
+          <p><a class="link-pijl" href="#">Lees meer over de onderwijsvisie van De Boomgaard</a></p>
+        </div>
+        <figure class="foto foto--roze">
+          <img src="img/groep12-tekenen.webp" width="1000" height="667" loading="lazy"
+               alt="Een juf tekent samen met een kleuter aan een kleurrijke tafel in de klas">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= 5. GEZICHTEN EN ERVARINGEN ================= -->
+    <!-- SHOULD: verhoogt het vertrouwen en maakt de samenwerking zichtbaar.
+         <figure> + <blockquote> + <figcaption> is de juiste HTML voor een quote met de naam erbij.
+         LET OP: dit zijn voorbeeldquotes van fictieve personen. In een echt traject: echte quotes
+         en foto's, alleen met schriftelijke toestemming (AVG). Ouders staan er bewust zonder foto
+         en zonder achternaam bij. -->
+    <section class="sectie sectie--wit" id="ervaringen" aria-labelledby="ervaringen-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <h2 id="ervaringen-titel">Wat de juf en ouders vertellen</h2>
+
+      <div class="ervaringen">
+        <figure class="ervaring ervaring--juf">
+          <img class="ervaring__foto" src="img/ervaring-juf.webp" width="480" height="480" loading="lazy" alt="">
+          <div>
+            <span class="label label--school">Basisschool De Boomgaard</span>
+            <blockquote>
+              <p>Veel kinderen ken ik al voordat ze bij mij in de groep komen. Ze komen vaak even zwaaien of
+                spelen in de kleutergroep. Dan is die eerste schooldag een stuk minder spannend.</p>
+            </blockquote>
+            <figcaption><strong>Marieke Jansen</strong>, juf van groep 1-2</figcaption>
+          </div>
+        </figure>
+
+        <figure class="ervaring ervaring--roze">
+          <blockquote>
+            <p>Noor liep op haar eerste schooldag gewoon naar binnen. Ze kende de gang en de juf al.
+              Dat gaf mij ook rust.</p>
+          </blockquote>
+          <figcaption><strong>Moeder van Noor</strong>, groep 2</figcaption>
+        </figure>
+
+        <figure class="ervaring ervaring--groen">
+          <blockquote>
+            <p>We hebben drie scholen bekeken. Voor ons gaf de BSO in hetzelfde gebouw de doorslag.
+              Geen gehaast meer na school.</p>
+          </blockquote>
+          <figcaption><strong>Vader van Sem</strong>, groep 1</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= 6. VERGELIJK GERUST ('KIES BEWUST') ================= -->
+    <!-- SHOULD: pakt het "reclamegevoel" aan. De pagina zegt eerlijk: kijk ook bij andere scholen.
+         De links gaan naar onafhankelijke websites, niet naar de school zelf.
+         COULD: de checklist is ook te downloaden als PDF, om mee te nemen naar een rondleiding. -->
+    <section class="sectie sectie--paneel deco deco--bewust" id="vergelijken" aria-labelledby="vergelijken-titel">
+      <div class="split split--boven">
+        <div>
+          <span class="duo-lijn" aria-hidden="true"></span>
+          <h2 id="vergelijken-titel">Vergelijk gerust</h2>
+          <p class="intro">Je kind zit op Pluk, maar je kiest zelf een school. Bekijk ook andere scholen.
+            Zo weet je zeker dat je kiest wat bij jullie past.</p>
+
+          <h3 class="kenmerken__intro">Eerlijk vergelijken doe je hier:</h3>
+          <ul class="bronnen">
+            <li>
+              <a class="link-pijl" href="https://scholenopdekaart.nl">Scholen op de kaart</a>
+              <p>Informatie en cijfers over alle basisscholen in Nederland.</p>
+            </li>
+            <li>
+              <a class="link-pijl" href="https://www.onderwijsinspectie.nl">Inspectie van het Onderwijs</a>
+              <p>Lees wat de inspectie vindt van de kwaliteit van een school.</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="checklist-kaart">
+          <h3>Vragen voor tijdens de rondleiding</h3>
+          <p>Neem deze vragen mee naar elke school die je bekijkt.</p>
+          <ul class="checklist">
+            <li>Hoe ziet een gewone dag in groep 1 eruit?</li>
+            <li>Hoe groot is de groep, en wie staat er voor de klas?</li>
+            <li>Hoe helpen jullie een kind dat het spannend vindt?</li>
+            <li>Hoe gaat het wennen?</li>
+            <li>Hoe volgen jullie wat mijn kind leert?</li>
+            <li>Hoe vaak praten jullie met ouders?</li>
+            <li>Wat doen jullie als mijn kind extra hulp nodig heeft?</li>
+            <li>Is er opvang voor en na school?</li>
+          </ul>
+          <!-- download: de browser slaat het bestand op in plaats van het te openen -->
+          <a class="knop knop--secundair" href="downloads/checklist-rondleiding.pdf" download>Download de checklist (PDF)</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. FAQ ================= -->
+    <!-- MUST: vangt de concrete vragen op.
+         <details> en <summary> zijn een ingebouwde uitklap-functie van HTML.
+         Ze werken zonder JavaScript en met het toetsenbord. -->
+    <section class="sectie sectie--paneel deco deco--vragen" id="vragen" aria-labelledby="vragen-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <h2 id="vragen-titel">Veelgestelde vragen</h2>
+
+      <div class="faq">
+        <details>
+          <summary>Moet mijn kind naar De Boomgaard omdat het op Pluk zit?</summary>
+          <p>Nee. Je kiest zelf een school die bij jullie past. We vinden het fijn als je ook andere scholen bekijkt.</p>
+        </details>
+        <details>
+          <summary>Is er nog plek in groep 1?</summary>
+          <p>Ja, kinderen die op tijd worden aangemeld, kunnen bij ons terecht. Meld je kind het liefst rond de derde verjaardag aan.</p>
+        </details>
+        <details>
+          <summary>Wat gebeurt er met ons contract bij Pluk?</summary>
+          <p>De dagopvang stopt automatisch bij de vierde verjaardag.
+            Pluk regelt de overstap naar de BSO met je mee.</p>
+        </details>
+        <details>
+          <summary>Wat als mijn kind extra ondersteuning nodig heeft?</summary>
+          <p>Vertel het ons tijdens de kennismaking. Samen kijken we wat je kind nodig heeft, en of we dat kunnen bieden.</p>
+        </details>
+        <details>
+          <summary>Wat kost de school?</summary>
+          <p>Basisonderwijs is gratis. De school vraagt een vrijwillige ouderbijdrage voor uitjes en feesten.</p>
+        </details>
+        <details>
+          <summary>Wil je je kind meteen aanmelden?</summary>
+          <!-- WON'T als hoofd-CTA, wel een kleine link hier -->
+          <p>Dat kan. We raden wel aan om eerst te komen kijken.
+            <a class="link-pijl" href="#">Naar het aanmeldformulier van De Boomgaard</a></p>
+        </details>
+      </div>
+      <!-- SHOULD: vraag stellen. Een laagdrempelige uitweg als je vraag er niet bij staat. -->
+      <p class="faq__meer">Staat je vraag er niet bij? <a class="link-pijl" href="#contact">Stel je vraag aan ons</a></p>
+    </section>
+
+    <!-- ================= 8. KENNISMAKEN (FORMULIER) ================= -->
+    <!-- MUST: de gewenste vervolgstap. FR-01 t/m FR-03.
+         Let op: GitHub Pages kan geen gegevens ontvangen. Daarom controleert JavaScript het formulier
+         en toont daarna de bedankpagina, zonder iets te versturen. Ook komen er zo geen gegevens
+         in de adresbalk te staan. In het echte CMS gaan de gegevens via een beveiligde verbinding naar de school. -->
+    <section class="sectie sectie--formulier deco deco--formulier" id="kennismaken" aria-labelledby="kennismaken-titel">
+      <div class="split split--formulier">
+        <div>
+          <span class="duo-lijn" aria-hidden="true"></span>
+          <h2 id="kennismaken-titel">Kom vrijblijvend kennismaken</h2>
+          <p>Je krijgt een rondleiding door de school en praat met de juf van groep 1. Het duurt ongeveer 45 minuten.</p>
+
+          <!-- Controle van het formulier:
+               - Met JavaScript (js/pagina.js) krijg je eigen foutmeldingen in gewone taal (B1),
+                 direct onder het veld waar iets mist.
+               - Zonder JavaScript controleert de browser zelf de verplichte velden (required).
+               De knop blijft bewust klikbaar: een grijze knop vertelt niet WAT er nog mist.
+               De lege <p class="veld__fout"> is de plek voor de foutmelding. Via aria-describedby
+               leest een schermlezer de melding voor bij het veld. -->
+          <form class="formulier formulier--kennismaken" action="bedankt.html">
+            <!-- Het sterretje is alleen visueel (aria-hidden). Schermlezers melden "verplicht" al
+                 dankzij het required-attribuut, anders zouden ze "sterretje" voorlezen. -->
+            <p class="formulier__uitleg">Velden met een <span class="verplicht" aria-hidden="true">*</span> zijn verplicht.</p>
+
+            <!-- Elk veld heeft een <label> met for="..." dat hoort bij het id van het veld.
+                 Zo weet een schermlezer welk label bij welk veld hoort, en kun je op het label klikken. -->
+            <!-- Voornaam en achternaam als twee losse velden. Op een breed scherm staan ze naast elkaar.
+                 autocomplete laat de browser ze automatisch invullen. -->
+            <div class="velden-naast">
+              <div class="veld">
+                <label for="voornaam">Voornaam <span class="verplicht" aria-hidden="true">*</span></label>
+                <input id="voornaam" name="voornaam" type="text" autocomplete="given-name" required aria-describedby="voornaam-fout">
+                <p class="veld__fout" id="voornaam-fout"></p>
+              </div>
+              <div class="veld">
+                <label for="achternaam">Achternaam <span class="verplicht" aria-hidden="true">*</span></label>
+                <input id="achternaam" name="achternaam" type="text" autocomplete="family-name" required aria-describedby="achternaam-fout">
+                <p class="veld__fout" id="achternaam-fout"></p>
+              </div>
+            </div>
+
+            <div class="veld">
+              <label for="email">E-mailadres <span class="verplicht" aria-hidden="true">*</span></label>
+              <!-- type="email" geeft op mobiel een toetsenbord met @ -->
+              <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-fout">
+              <p class="veld__fout" id="email-fout"></p>
+            </div>
+
+            <div class="veld">
+              <label for="telefoon">Telefoonnummer</label>
+              <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" aria-describedby="telefoon-fout">
+              <p class="veld__fout" id="telefoon-fout"></p>
+            </div>
+
+            <!-- AVG: alleen maand en jaar, geen naam of volledige geboortedatum van het kind.
+                 Twee keuzelijsten in plaats van type="month": dat veld werkt niet in elke browser
+                 (Safari op de Mac toont een leeg tekstveld, zonder uitleg wat je moet typen). -->
+            <fieldset class="veld">
+              <legend>Geboortemaand en -jaar van je kind <span class="verplicht" aria-hidden="true">*</span></legend>
+              <!-- De uitleg staat boven de velden, zodat je hem leest vóór je iets invult -->
+              <p class="veld__hulp veld__hulp--boven" id="geboortemaand-hulp">Zo weten we in welke groep je kind straks begint.</p>
+              <div class="velden-naast velden-naast--vast">
+                <div>
+                  <label class="veld__sublabel" for="geboortemaand">Maand</label>
+                  <select id="geboortemaand" name="geboortemaand" required aria-describedby="geboortemaand-hulp geboorte-fout">
+                    <option value="">Kies</option>
+                    <option value="1">januari</option>
+                    <option value="2">februari</option>
+                    <option value="3">maart</option>
+                    <option value="4">april</option>
+                    <option value="5">mei</option>
+                    <option value="6">juni</option>
+                    <option value="7">juli</option>
+                    <option value="8">augustus</option>
+                    <option value="9">september</option>
+                    <option value="10">oktober</option>
+                    <option value="11">november</option>
+                    <option value="12">december</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="veld__sublabel" for="geboortejaar">Jaar</label>
+                  <select id="geboortejaar" name="geboortejaar" required aria-describedby="geboortemaand-hulp geboorte-fout">
+                    <option value="">Kies</option>
+                    <option>2026</option>
+                    <option>2025</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                    <option>2021</option>
+                  </select>
+                </div>
+              </div>
+              <p class="veld__fout" id="geboorte-fout"></p>
+            </fieldset>
+
+            <!-- <fieldset> + <legend> groeperen keuzerondjes onder één vraag -->
+            <!-- veld--naast: de opties staan naast elkaar, dat maakt het formulier korter -->
+            <fieldset class="veld veld--naast" aria-describedby="moment-fout">
+              <legend>Wanneer kom je het liefst? <span class="verplicht" aria-hidden="true">*</span></legend>
+              <label class="keuze"><input type="radio" name="moment" value="ochtend" required> Ochtend</label>
+              <label class="keuze"><input type="radio" name="moment" value="middag"> Middag</label>
+              <label class="keuze"><input type="radio" name="moment" value="maakt-niet-uit"> Maakt niet uit</label>
+              <p class="veld__fout" id="moment-fout"></p>
+            </fieldset>
+
+            <div class="veld">
+              <label class="keuze">
+                <input type="checkbox" name="meelopen" value="ja">
+                Ik wil graag dat iemand van Pluk meeloopt tijdens de rondleiding
+              </label>
+            </div>
+
+            <div class="veld veld--privacy">
+              <label class="keuze">
+                <input type="checkbox" name="toestemming" required aria-describedby="toestemming-fout">
+                <span>Ik geef toestemming dat De Boomgaard mijn gegevens gebruikt om een kennismaking te
+                  plannen.&nbsp;<span class="verplicht" aria-hidden="true">*</span></span>
+              </label>
+              <p class="veld__fout" id="toestemming-fout"></p>
+              <p class="veld__hulp">Je gegevens worden verzonden naar de directeur van De Boomgaard.
+                We bewaren ze maximaal 1 jaar. <a class="link-pijl" href="#">Lees de privacyverklaring</a></p>
+            </div>
+
+            <button class="knop" type="submit">Kennismaking aanvragen</button>
+            <p class="veld__hulp">We nemen binnen 2 werkdagen contact met je op om een moment af te spreken.</p>
+          </form>
+
+          <!-- SHOULD (FR-04): herinnering voor het aanmeldmoment. Voor ouders die nog niet zover zijn.
+               AVG: alleen e-mail en geboortemaand. Met een "double opt-in": je krijgt eerst een mail
+               om te bevestigen dat jij het echt bent. Pas daarna sta je op de lijst.
+               Net als het grote formulier: GitHub Pages verstuurt niets, dus we tonen alleen de bevestiging. -->
+          <div class="herinnering" id="herinnering">
+            <h3 id="herinnering-titel">Nog niet zover? Krijg een herinnering</h3>
+            <p>We sturen je één mail als het tijd is om je kind aan te melden. Meer niet.</p>
+
+            <form class="formulier formulier--herinnering" action="#herinnering" aria-labelledby="herinnering-titel">
+              <div class="veld">
+                <label for="herinnering-email">E-mailadres <span class="verplicht" aria-hidden="true">*</span></label>
+                <input id="herinnering-email" name="email" type="email" autocomplete="email" required aria-describedby="herinnering-email-fout">
+                <p class="veld__fout" id="herinnering-email-fout"></p>
+              </div>
+
+              <fieldset class="veld">
+                <legend>Geboortemaand en -jaar van je kind <span class="verplicht" aria-hidden="true">*</span></legend>
+                <div class="velden-naast velden-naast--vast">
+                  <div>
+                    <label class="veld__sublabel" for="herinnering-maand">Maand</label>
+                    <select id="herinnering-maand" name="geboortemaand" required aria-describedby="herinnering-geboorte-fout">
+                      <option value="">Kies</option>
+                      <option value="1">januari</option>
+                      <option value="2">februari</option>
+                      <option value="3">maart</option>
+                      <option value="4">april</option>
+                      <option value="5">mei</option>
+                      <option value="6">juni</option>
+                      <option value="7">juli</option>
+                      <option value="8">augustus</option>
+                      <option value="9">september</option>
+                      <option value="10">oktober</option>
+                      <option value="11">november</option>
+                      <option value="12">december</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="veld__sublabel" for="herinnering-jaar">Jaar</label>
+                    <select id="herinnering-jaar" name="geboortejaar" required aria-describedby="herinnering-geboorte-fout">
+                      <option value="">Kies</option>
+                      <option>2026</option>
+                      <option>2025</option>
+                      <option>2024</option>
+                      <option>2023</option>
+                      <option>2022</option>
+                      <option>2021</option>
+                    </select>
+                  </div>
+                </div>
+                <p class="veld__fout" id="herinnering-geboorte-fout"></p>
+              </fieldset>
+
+              <div class="veld veld--privacy">
+                <label class="keuze">
+                  <input type="checkbox" name="toestemming" required aria-describedby="herinnering-toestemming-fout">
+                  <span>Ik geef toestemming dat De Boomgaard mijn gegevens gebruikt om mij een herinnering te
+                    sturen.&nbsp;<span class="verplicht" aria-hidden="true">*</span></span>
+                </label>
+                <p class="veld__fout" id="herinnering-toestemming-fout"></p>
+                <p class="veld__hulp">Je krijgt eerst een mail om je aanmelding te bevestigen. In elke mail staat een
+                  afmeldlink. We bewaren je gegevens tot je kind 4 jaar is.</p>
+              </div>
+
+              <button class="knop knop--secundair" type="submit">Stuur mij een herinnering</button>
+            </form>
+
+            <!-- Verschijnt na het versturen. tabindex="-1" zodat de focus erheen kan:
+                 een schermlezer leest de melding dan meteen voor. -->
+            <div class="herinnering__klaar" tabindex="-1" hidden>
+              <p><strong>Bijna klaar!</strong> We hebben je een mail gestuurd. Klik op de link in die mail
+                om je aanmelding te bevestigen.</p>
+            </div>
+          </div>
+        </div>
+
+        <figure class="foto foto--groen">
+          <img src="img/kennismaken-klas.webp" width="800" height="1200" loading="lazy"
+               alt="Een juf helpt een jongen met kleurpotloden in een lichte klas met een groene stoel">
+          <span class="foto__ring" aria-hidden="true"></span>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================= 9. CONTACT ================= -->
+    <!-- Duidelijk maken wie bij welke organisatie het aanspreekpunt is.
+         Rustige kaarten: alleen het label laat zien bij welke organisatie iemand hoort.
+         Een foto maakt het persoonlijk: je weet wie je aan de lijn krijgt.
+         Stockfoto's (Unsplash) van fictieve personen. In een echt traject: eigen foto's, met toestemming.
+         alt="" omdat de naam er al naast staat: een schermlezer hoeft de foto niet apart te beschrijven. -->
+    <section class="sectie" id="contact" aria-labelledby="contact-titel">
+      <span class="duo-lijn" aria-hidden="true"></span>
+      <h2 id="contact-titel">Liever eerst even bellen?</h2>
+      <!-- SHOULD (FR-05): vraag stellen. Ook voor wie liever typt dan belt.
+           Het WhatsApp-nummer is fictief, daarom staat de link nog op "#".
+           Het e-mailadres eindigt op .example: een domein dat nooit echt bestaat. -->
+      <!-- <br>: de tweede zin begint op een eigen regel. "nowrap" voorkomt dat hij halverwege afbreekt. -->
+      <p class="contact__intro">Bel gerust, of stel je vraag via WhatsApp of e-mail.<br>
+        <span class="geen-afbreking">We reageren binnen 2 werkdagen.</span></p>
+      <ul class="kaarten kaarten--contact">
+        <li class="kaart contact">
+          <img class="contact__foto" src="img/contact-sanne.webp" width="320" height="320" loading="lazy" alt="">
+          <div>
+            <span class="label label--school">Basisschool De Boomgaard</span>
+            <h3>Sanne de Vries, directeur</h3>
+            <p>Voor vragen over de school, groep 1 en aanmelden.</p>
+            <p class="contact__links">
+              <a href="tel:+31301234567">030 123 45 67</a>
+              <a href="#">WhatsApp</a>
+              <a href="mailto:info@deboomgaard.example">Mail je vraag</a>
+            </p>
+          </div>
+        </li>
+        <li class="kaart contact">
+          <img class="contact__foto" src="img/contact-ilse.webp" width="320" height="320" loading="lazy" alt="">
+          <div>
+            <span class="label label--opvang">Kinderopvang Pluk</span>
+            <h3>Ilse Bakker, locatiemanager</h3>
+            <p>Voor vragen over de opvang, de overdracht en de BSO.</p>
+            <p class="contact__links">
+              <a href="tel:+31301234568">030 123 45 68</a>
+              <a href="#">WhatsApp</a>
+              <a href="mailto:info@kinderopvangpluk.example">Mail je vraag</a>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Sticky knop onderin het scherm, alleen op mobiel (FR-08): binnen bereik van de duim.
+       Hij verschijnt pas als de knoppen van de hero uit beeld zijn, en verdwijnt weer
+       bij het formulier (daar is hij niet meer nodig). Dat regelt js/pagina.js. -->
+  <div class="sticky-cta">
+    <a class="knop" href="#kennismaken">Plan een kennismaking</a>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <!-- De footer van de schoolwebsite, met een duidelijke verwijzing naar de partner (FR-11).
+       Adres en telefoonnummers zijn fictief. -->
+  <footer class="voet">
+    <div class="voet__kolommen">
+      <div>
+        <p class="voet__titel">Basisschool De Boomgaard</p>
+        <p>Boomgaardlaan 12<br>1234 AB Appeldorp</p>
+        <p><a href="tel:+31301234567">030 123 45 67</a></p>
+      </div>
+      <div>
+        <p class="voet__titel">In samenwerking met</p>
+        <p><a class="link-pijl" href="#">Kinderopvang Pluk</a></p>
+        <p>Dagopvang, peuteropvang en BSO, in hetzelfde gebouw.</p>
+      </div>
+      <div>
+        <p class="voet__titel">Over deze website</p>
+        <p><a href="#">Privacyverklaring</a><br><a href="#">Toegankelijkheidsverklaring</a></p>
+      </div>
+    </div>
+    <!-- Eerlijk naar de beoordelaars: fictieve organisaties -->
+    <p class="veld__hulp">Fictieve organisaties, gemaakt voor een assessment. Foto's: Unsplash.</p>
+  </footer>
+
+</body>
+</html>

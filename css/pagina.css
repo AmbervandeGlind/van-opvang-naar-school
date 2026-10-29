@@ -1,0 +1,1620 @@
+/*
+  PAGINA-OPMAAK
+  -------------
+  De opmaak van de secties op de landingspagina.
+
+  MOBILE-FIRST: alles bovenaan dit bestand is voor een smal scherm (telefoon).
+  Helemaal onderaan staan "@media"-blokken met wat er verandert op een breder scherm.
+  We beginnen bij mobiel, omdat de meeste ouders via een QR-code of de nieuwsbrief komen.
+*/
+
+/* Zacht scrollen naar een sectie als je op een navigatielink klikt.
+   Alleen als de bezoeker geen "minder beweging" heeft ingesteld (toegankelijkheid). */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ================= SKIPLINK ================= */
+/* Verstopt boven het scherm, en zichtbaar zodra hij focus krijgt via de Tab-toets */
+.skiplink {
+  position: absolute;
+  top: -10rem;
+  left: var(--ruimte-3);
+  z-index: 100;
+  padding: var(--ruimte-2) var(--ruimte-3);
+  background: var(--kleur-hoofd);
+  color: var(--kleur-wit);
+  border-radius: var(--radius-klein);
+}
+.skiplink:focus {
+  top: var(--ruimte-3);
+  color: var(--kleur-wit);
+}
+
+/* ================= SECTIES ================= */
+/*
+  Elke sectie loopt over de volle breedte (zodat een achtergrondkleur tot de rand gaat),
+  maar de inhoud blijft in het midden en wordt nooit breder dan --breedte-max.
+  max() kiest de grootste van twee waarden: minimaal 20px aan de zijkant, en op een breed
+  scherm precies genoeg om de inhoud te centreren.
+*/
+.sectie,
+.hero,
+.kop,
+.voet {
+  padding-inline: max(1.25rem, (100% - var(--breedte-max)) / 2);
+}
+.sectie {
+  padding-block: var(--ruimte-7);     /* veel ruimte tussen secties: rustiger en opener */
+}
+.sectie h2 {
+  margin-bottom: var(--ruimte-4);
+}
+
+/* De pagina is wit. Twee panelen krijgen een heel lichte tint van de accentkleuren:
+   groen voor de tijdlijn, roze voor de vragen. Fris en gezellig, zonder druk te worden. */
+#tijdlijn {
+  background: var(--kleur-tint-roze);      /* heel licht roze. Iets steviger: var(--kleur-opvang-licht) */
+}
+#vragen {
+  background: var(--kleur-tint-roze);
+}
+.sectie--wit {
+  background: var(--kleur-kaart);
+}
+
+/* PANEEL: een gekleurde sectie als afgerond vlak, met wat ruimte langs de rand van het scherm.
+   Dat oogt lichter en opener dan een balk over de volle breedte. */
+:root {
+  --paneel-marge: clamp(0.5rem, 1.5vw, 1.25rem);
+}
+.sectie--paneel {
+  margin-inline: var(--paneel-marge);
+  border-radius: var(--radius-groot);
+}
+
+h4 {
+  font-family: var(--font-kop);
+  font-size: var(--kop-3);
+  line-height: var(--regelhoogte-kop);
+  margin: 0 0 var(--ruimte-2);
+}
+
+/* ================= DECORATIEVE CIRKELS ================= */
+/*
+  Speelse cirkels in roze en groen in de achtergrond van een sectie.
+  Ze vullen lege ruimte op en laten de twee huisstijlen terugkomen.
+  - position: relative  -> de cirkels worden geplaatst ten opzichte van de sectie
+  - isolation: isolate  -> z-index: -1 legt de cirkels achter de inhoud, maar vóór de achtergrond
+  - overflow: clip      -> cirkels die over de rand vallen worden afgeknipt (geen horizontaal scrollen)
+  Elke variant (deco--hero, deco--tijdlijn, ...) bepaalt zelf waar de cirkels staan.
+  Een "ring" is een cirkel met alleen een rand; een "stip" is een gevulde cirkel.
+*/
+.deco {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+.deco::before,
+.deco::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Hero: grote zachtroze cirkel rechtsboven, groene ring linksonder */
+.deco--hero::before {
+  width: 26rem;
+  height: 26rem;
+  top: -8rem;
+  right: -8rem;
+  background: var(--kleur-opvang-licht);
+}
+.deco--hero::after {
+  width: 7rem;
+  height: 7rem;
+  bottom: -3.5rem;
+  left: -2.5rem;
+  border: 12px solid var(--kleur-school-licht);
+}
+
+/* Tijdlijn: zachtroze cirkel rechtsonder, roze ring rechtsboven */
+.deco--tijdlijn::before {
+  width: 18rem;
+  height: 18rem;
+  bottom: -7rem;
+  right: -5rem;
+  background: var(--kleur-opvang-licht);   /* roze, past bij het roze vlak */
+}
+.deco--tijdlijn::after {
+  width: 4rem;
+  height: 4rem;
+  top: -1.5rem;
+  right: -1.5rem;
+  border: 8px solid var(--kleur-opvang);
+  opacity: 0.6;
+}
+
+/* Vragen: grote roze ring en groene stip rechts, naast de vragen */
+.deco--vragen::before {
+  width: 16rem;
+  height: 16rem;
+  top: 50%;
+  right: -4rem;
+  border: 18px solid var(--kleur-opvang-licht);
+}
+.deco--vragen::after {
+  width: 3rem;
+  height: 3rem;
+  top: 1rem;
+  right: -1.25rem;
+  background: var(--kleur-school);
+}
+
+/* Formulier: zachtroze cirkel linksonder, groene ring rechtsboven.
+   De roze cirkel wordt onderaan NIET afgeknipt: hij loopt door in de contactsectie eronder,
+   zodat de twee secties in elkaar overlopen. overflow-x: clip voorkomt wel horizontaal scrollen. */
+.deco--formulier {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+/* De contactsectie ligt boven de doorlopende cirkel, zodat de tekst altijd leesbaar blijft */
+#contact {
+  position: relative;
+  z-index: 1;
+}
+.deco--formulier::before {
+  width: 20rem;
+  height: 20rem;
+  bottom: -8rem;
+  left: -8rem;
+  background: var(--kleur-opvang-licht);
+}
+.deco--formulier::after {
+  width: 9rem;
+  height: 9rem;
+  top: 1.5rem;
+  right: 6%;
+  border: 14px solid var(--kleur-school-licht);
+}
+
+/* ================= SPLIT: TEKST + FOTO ================= */
+/* Op mobiel onder elkaar. Op een groot scherm naast elkaar (zie onderaan). */
+.split {
+  display: grid;
+  gap: var(--ruimte-5);
+  align-items: center;
+}
+
+/* ================= FOTO'S ================= */
+/*
+  Elke foto krijgt twee gekleurde vormen erachter: een groot afgerond vlak en een rondje.
+  ::before en ::after zijn "nep-elementen" die we met CSS toevoegen, zonder extra HTML.
+*/
+.foto {
+  position: relative;
+  isolation: isolate;
+  margin: 0 0.75rem 0.75rem 0;     /* ruimte voor de vorm die rechtsonder uitsteekt */
+}
+.foto img {
+  width: 100%;
+  height: auto;                    /* anders wint de height uit de HTML en wordt de foto uitgerekt */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;               /* vult het vlak, zonder de foto uit te rekken */
+  border-radius: var(--radius-groot);
+}
+.foto::before,
+.foto::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+.foto::before {
+  right: -0.75rem;
+  bottom: -0.75rem;
+  width: 60%;
+  height: 65%;
+  border-radius: var(--radius-groot);
+}
+.foto::after {
+  left: -0.6rem;
+  top: -0.6rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+/* Roze vlak + groen rondje, of andersom */
+.foto--roze::before { background: var(--kleur-opvang); }
+.foto--roze::after  { background: var(--kleur-school); }
+.foto--groen::before { background: var(--kleur-school); }
+.foto--groen::after  { background: var(--kleur-opvang); }
+
+/* ================= HEADER + NAVIGATIE ================= */
+/* Een witte balk met een schaduw eronder: duidelijk afgebakend van de pagina */
+.kop {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ruimte-4);
+  padding-block: var(--ruimte-3);
+  background: var(--kleur-kaart);
+  box-shadow: 0 1px 0 var(--kleur-vlak), 0 4px 16px rgb(43 39 53 / 0.06);
+}
+
+/* Navigatielinks: op mobiel verborgen (de pagina is kort genoeg om te scrollen),
+   op een groot scherm zichtbaar (zie onderaan) */
+.kop__nav {
+  display: none;
+}
+.kop__nav ul {
+  display: flex;
+  gap: var(--ruimte-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.kop__nav a {
+  color: var(--kleur-tekst);
+  font-family: var(--font-kop);
+  font-weight: 700;
+  text-decoration: none;
+  padding-block: var(--ruimte-2);
+  border-bottom: 3px solid transparent;
+}
+/* De menu-stijl van de schoolwebsite: groen, want dat is de huisstijl van De Boomgaard */
+.kop__nav a:hover,
+.kop__nav a[aria-current="page"] {
+  border-bottom-color: var(--kleur-school);
+}
+
+/* MENUKNOP (mobiel en tablet)
+   Standaard verborgen. Alleen met JavaScript (class "js") zichtbaar, want zonder
+   JavaScript kan hij het menu niet openen. */
+.kop__menuknop {
+  display: none;
+  align-items: center;
+  gap: var(--ruimte-2);
+  min-height: 2.75rem;             /* minimaal 44px: groot genoeg om aan te tikken */
+  padding: var(--ruimte-1) var(--ruimte-3);
+  border: 2px solid var(--kleur-rand);
+  border-radius: var(--radius-rond);
+  background: var(--kleur-kaart);
+  color: var(--kleur-tekst);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-basis);
+  font-weight: 700;
+  cursor: pointer;
+}
+.kop__menuknop:hover {
+  background: var(--kleur-hoofd-licht);
+}
+.kop__menuknop svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+/* Hamburger als het menu dicht is, een kruisje als het open is */
+.kop__menuknop[aria-expanded="true"] .kop__icoon-open,
+.kop__menuknop[aria-expanded="false"] .kop__icoon-dicht {
+  display: none;
+}
+
+/* Het uitklapmenu. Dit geldt alleen ONDER de 64rem (max-width), want op een groot
+   scherm staat het menu gewoon in de balk. */
+@media (max-width: 63.99rem) {
+  .js .kop__menuknop {
+    display: inline-flex;
+  }
+  /* Open menu: een wit vlak direct onder de balk, over de volle breedte */
+  .kop--menu-open .kop__nav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--ruimte-2) max(1.25rem, (100% - var(--breedte-max)) / 2) var(--ruimte-4);
+    background: var(--kleur-kaart);
+    box-shadow: 0 12px 24px rgb(43 39 53 / 0.08);
+  }
+  .kop--menu-open .kop__nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+  .kop--menu-open .kop__nav li {
+    border-bottom: 1px solid var(--kleur-lijn);
+  }
+  .kop--menu-open .kop__nav a {
+    display: block;
+    padding-block: var(--ruimte-3);
+    border-bottom: 0;
+  }
+  /* Ook hier het groene streepje bij "Ouders", nu als onderstreping van de tekst */
+  .kop--menu-open .kop__nav a[aria-current="page"] {
+    text-decoration: underline 3px var(--kleur-school);
+    text-underline-offset: 0.45em;
+  }
+}
+
+/* Logo van De Boomgaard: een groen boompje met de naam ernaast */
+.logo-school {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-2);
+  color: var(--kleur-school-tekst);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-groot);
+  font-weight: 800;
+  line-height: 1.05;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.kop .logo-school {
+  margin-right: auto;              /* duwt het menu en de knoppen naar rechts */
+}
+.logo-school:hover {
+  color: var(--kleur-school-tekst);
+}
+.logo-school__klein {
+  display: block;
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  color: var(--kleur-tekst-zacht);
+}
+.logo-school__icoon {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: var(--kleur-school);
+}
+
+/* ================= KRUIMELPAD ================= */
+.kruimelpad {
+  padding-inline: max(1.25rem, (100% - var(--breedte-max)) / 2);
+  padding-block: var(--ruimte-3) 0;
+  font-size: var(--tekst-klein);
+}
+.kruimelpad ol {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Een › tussen de stappen, alleen visueel */
+.kruimelpad li + li::before {
+  content: "›";
+  margin-inline: var(--ruimte-2);
+  color: var(--kleur-tekst-zacht);
+}
+.kruimelpad a {
+  color: var(--kleur-tekst-zacht);
+  font-weight: 400;
+}
+.kruimelpad [aria-current="page"] {
+  font-weight: 700;
+}
+
+/* Kleinere variant van de knop */
+.knop--klein {
+  padding: 0.7rem 1.4rem;
+  white-space: nowrap;
+}
+/* Op mobiel past de knop niet naast het logo. Daar komt in stap 4 een
+   sticky knop onderin het scherm voor in de plaats (FR-08), binnen bereik van de duim. */
+.kop .knop {
+  display: none;
+}
+
+/* ================= HERO ================= */
+.hero {
+  display: grid;
+  gap: var(--ruimte-5);
+  padding-block: var(--ruimte-4) var(--ruimte-6);
+}
+/* Op mobiel staat de foto bovenaan: direct een sfeerbeeld.
+   order verandert alleen de volgorde op het scherm. In de HTML (en voor schermlezers)
+   komt de titel nog steeds eerst. */
+.hero__foto {
+  order: -1;
+}
+.hero__afzender {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ruimte-2);
+}
+.hero h1 {
+  font-weight: 700;
+}
+.hero__intro {
+  font-size: var(--tekst-groot);
+  color: var(--kleur-tekst-zacht);
+}
+.hero__acties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ruimte-3);
+  margin-top: var(--ruimte-4);
+}
+
+/* ================= HERO-VARIANT: FOTO VULT DE HELE HERO ================= */
+/*
+  Mobiel en tablet: de foto loopt van rand tot rand, en de tekstkaart schuift er een stukje overheen.
+  Groot scherm (vanaf 64rem): de foto vult de hele hero, en de kaart staat er links bovenop.
+  De foto is daarom gekozen met het kind rechts en rustige ruimte links: de kaart bedekt niemand.
+  De hero past op een groot scherm in het eerste scherm, zodat titel en knop direct zichtbaar zijn.
+  Een witte kaart (in plaats van witte tekst direct op de foto) houdt de tekst altijd leesbaar,
+  ook op een drukke foto. Dat is nodig voor WCAG-contrast.
+*/
+.hero--vol {
+  gap: 0;
+  padding-top: 0;
+}
+/* "Full bleed": 100vw breed, en met een negatieve marge naar de linkerrand van het scherm geschoven */
+.hero--vol .hero__foto {
+  width: 100vw;
+  margin: 0 0 0 calc(50% - 50vw);
+}
+/* Op mobiel een lage, brede uitsnede: zo staan titel en knop sneller in beeld.
+   De foto is ingezoomd op de kinderen (scale), anders zijn ze op een smal scherm heel klein.
+   transform-origin = het punt waarop wordt ingezoomd: rechtsonder, waar de kinderen rennen. */
+.hero--vol .hero__foto {
+  overflow: hidden;
+}
+.hero--vol .hero__foto img {
+  aspect-ratio: 16 / 9;
+  /* object-position bepaalt welk deel van de foto zichtbaar is als hij wordt bijgesneden.
+     Op mobiel valt links en rechts een stukje weg. 45%: de groep kinderen staat in het midden. */
+  object-position: 45% center;
+  border-radius: 0;
+}
+/* De gekleurde vormen achter de foto zijn hier niet nodig: de cirkels nemen het over */
+.hero--vol .hero__foto::before,
+.hero--vol .hero__foto::after {
+  display: none;
+}
+.hero--vol .hero__tekst {
+  position: relative;
+  margin-top: -1rem;               /* schuift een klein stukje over de foto heen, niet over de kinderen */
+  padding: var(--ruimte-4);
+  background: var(--kleur-kaart);
+  border-radius: var(--radius-groot);
+  box-shadow: var(--schaduw);
+}
+.hero--vol .hero__intro {
+  margin-bottom: 0;
+  font-size: var(--tekst-basis);   /* op mobiel iets kleiner, zodat de knop in het eerste scherm staat */
+}
+/* Cirkels in deze variant: een roze ring en een groene stip, óver de foto heen */
+.hero--vol.deco::before,
+.hero--vol.deco::after {
+  z-index: 1;
+}
+.hero--vol.deco::before {
+  width: 5.5rem;
+  height: 5.5rem;
+  top: -2rem;                      /* half in de hoek, zodat hij niet over de kinderen valt */
+  right: -2rem;
+  background: none;
+  border: 12px solid var(--kleur-opvang);
+}
+.hero--vol.deco::after {
+  width: 2.5rem;
+  height: 2.5rem;
+  top: 1.5rem;
+  right: auto;
+  bottom: auto;
+  left: 1.5rem;                    /* links op het lege gras, niet over het kind */
+  border: 0;
+  background: var(--kleur-school);
+}
+
+/* ================= KENMERKEN (ICOON + KORTE TEKST) ================= */
+/* Lichter dan kaarten: geen vlak eromheen, alleen een rond icoontje in een zachte kleur */
+.intro {
+  font-size: var(--tekst-groot);
+  color: var(--kleur-tekst-zacht);
+}
+.kenmerken__intro {
+  margin: var(--ruimte-5) 0 var(--ruimte-4);
+  font-size: var(--tekst-basis);
+}
+.kenmerken {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--ruimte-4);
+}
+.kenmerk {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ruimte-3);
+}
+.kenmerk h4 {
+  font-size: var(--tekst-basis);
+  margin-bottom: var(--ruimte-1);
+}
+.kenmerk p {
+  margin: 0;
+  color: var(--kleur-tekst-zacht);
+}
+/* Rond icoontje: afwisselend roze en groen */
+.kenmerk__icoon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--kleur-opvang-licht);
+  color: var(--kleur-opvang-tekst);
+}
+.kenmerk:nth-child(even) .kenmerk__icoon {
+  background: var(--kleur-school-licht);
+  color: var(--kleur-school-tekst);
+}
+/* Lijn-icoontjes: alleen een rand (stroke) in de kleur van de tekst (currentColor) */
+.kenmerk__icoon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Op mobiel de foto bovenaan, zodat tekst en kenmerken bij elkaar blijven */
+.split--onder > .foto {
+  order: -1;
+}
+
+/* ================= KAARTEN ================= */
+/* Lijst zonder bolletjes, als raster. auto-fit + minmax: er passen zoveel kaarten naast
+   elkaar als het scherm toelaat, met elk minimaal 15rem breed. Zo is het vanzelf responsive. */
+.kaarten {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--ruimte-3);
+}
+/* Platte kaart: een zacht vlak, zonder schaduw of gekleurde rand. Dat oogt lichter. */
+.kaart {
+  background: var(--kleur-vlak);
+  border-radius: var(--radius-groot);
+  padding: var(--ruimte-4);
+}
+@media (min-width: 48rem) {
+  .kaart {
+    padding: var(--ruimte-5);
+  }
+}
+.kaart p:last-child {
+  margin-bottom: 0;
+}
+
+/* Contactkaarten: rustig, zonder gekleurde rand. Alleen het label toont de organisatie. */
+.kaarten--contact {
+  margin-top: var(--ruimte-4);
+  /* breed: twee naast elkaar over de hele breedte. min(20rem, 100%): op een heel smal
+     scherm nooit breder dan de ruimte die er is */
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+}
+.kaarten--contact .kaart {
+  border-top: 0;
+}
+.kaarten--contact h3 {
+  margin-top: var(--ruimte-3);
+}
+
+/* Contactkaart met een ronde foto links van de tekst */
+.contact {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ruimte-3);
+}
+.contact__foto {
+  flex-shrink: 0;
+  width: 4rem;                     /* op mobiel kleiner, zodat de tekst genoeg ruimte heeft */
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ================= TIJDLIJN ================= */
+/* Mobiel: een verticale lijn met een bolletje per stap */
+.tijdlijn {
+  list-style: none;
+  margin: var(--ruimte-5) 0 0;
+  padding: 0;
+}
+.tijdlijn__stap {
+  position: relative;
+  padding: 0 0 var(--ruimte-5) var(--ruimte-5);
+  border-left: 3px solid var(--kleur-lijn);
+  margin-left: var(--ruimte-2);
+}
+/* Iets kleinere tekst in de tijdlijn (15px), zodat de vijf smalle kolommen niet opgepropt voelen */
+.tijdlijn__stap p {
+  font-size: 0.9375rem;
+}
+.tijdlijn__stap:last-child {
+  border-left-color: transparent;
+  padding-bottom: 0;
+}
+/* Het bolletje: een leeg element (::before) dat we rond maken.
+   Afwisselend roze en groen, net als de icoontjes. */
+.tijdlijn__stap::before {
+  content: "";
+  position: absolute;
+  left: calc(-0.6rem - 1.5px);
+  top: 0.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: var(--kleur-kaart);
+  border: 4px solid var(--kleur-opvang);
+}
+.tijdlijn__stap:nth-child(even)::before {
+  border-color: var(--kleur-school);
+}
+.tijdlijn__leeftijd {
+  margin: 0 0 var(--ruimte-1);
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  color: var(--kleur-tekst-zacht);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tijdlijn__stap h3 {
+  margin-bottom: var(--ruimte-2);
+}
+.tijdlijn__stap p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* De kennismaakstap valt op: dat is de vervolgstap van deze pagina.
+   Een witte kaart met schaduw, een gevuld bolletje en een knop. */
+.tijdlijn__stap--belangrijk::before {
+  background: var(--kleur-hoofd);
+  border-color: var(--kleur-hoofd);
+}
+.tijdlijn__stap--belangrijk {
+  margin-bottom: var(--ruimte-4);
+  padding-right: var(--ruimte-3);  /* ruimte tussen de tekst en de rand van de witte kaart */
+  isolation: isolate;              /* zodat z-index: -1 de kaart achter de tekst legt */
+}
+.tijdlijn__stap--belangrijk::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--ruimte-3)) 0 var(--ruimte-2) var(--ruimte-4);
+  background: var(--kleur-kaart);
+  border-radius: var(--radius);
+}
+.tijdlijn__stap--belangrijk .knop {
+  margin-top: var(--ruimte-3);
+}
+
+/* ================= DAGRITME ================= */
+.dagritme {
+  margin: var(--ruimte-5) 0;
+  background: var(--kleur-tint-groen);
+  border-radius: var(--radius-groot);
+  padding: var(--ruimte-2) var(--ruimte-5);
+}
+.dagritme div {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: var(--ruimte-3);
+  padding-block: var(--ruimte-3);
+  border-bottom: 1px solid rgb(43 39 53 / 0.07);   /* heel lichte scheidingslijn */
+}
+.dagritme div:last-child {
+  border-bottom: 0;
+}
+.dagritme dt {
+  font-family: var(--font-kop);
+  font-weight: 700;
+}
+.dagritme dd {
+  margin: 0;
+}
+
+/* ================= FAQ ================= */
+.faq {
+  max-width: 44rem;
+  display: grid;
+  gap: var(--ruimte-2);
+}
+.faq details {
+  background: var(--kleur-kaart);
+  border-radius: var(--radius);
+}
+.faq summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ruimte-3);
+  padding: var(--ruimte-3) var(--ruimte-4);
+  font-family: var(--font-kop);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;               /* verbergt het standaard driehoekje */
+}
+.faq summary::-webkit-details-marker {
+  display: none;                  /* hetzelfde, voor Safari */
+}
+/* Eigen plus- en min-teken */
+.faq summary::after {
+  content: "+";
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--kleur-hoofd);
+  color: var(--kleur-wit);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.faq details[open] summary::after {
+  content: "−";
+}
+.faq details p {
+  margin: 0;
+  padding: 0 var(--ruimte-4) var(--ruimte-4);
+}
+
+/* ================= FORMULIER ================= */
+/* Witte sectie (zoals de navigatie), met het formulier als lichtgrijs vlak erin */
+.sectie--formulier {
+  background: var(--kleur-kaart);
+}
+.formulier {
+  margin-top: var(--ruimte-4);
+  padding: var(--ruimte-4);
+  background: var(--kleur-vlak);
+  border-radius: var(--radius-groot);
+}
+.formulier__uitleg {
+  margin-bottom: var(--ruimte-4);
+  font-size: var(--tekst-klein);
+  color: var(--kleur-tekst-zacht);
+}
+/* Het sterretje voor verplichte velden */
+.verplicht {
+  color: var(--kleur-opvang-tekst);
+  font-weight: 700;
+}
+.veld {
+  margin: 0 0 var(--ruimte-4);
+  padding: 0;
+  border: 0;                      /* fieldset heeft standaard een rand */
+}
+.veld > label,
+.veld legend {
+  display: block;
+  margin-bottom: var(--ruimte-2);
+  padding: 0;
+  font-weight: 700;
+}
+.veld__hulp {
+  margin: var(--ruimte-2) 0 0;
+  font-size: var(--tekst-klein);
+  color: var(--kleur-tekst-zacht);
+}
+/* Uitleg die tussen het label en het veld staat */
+.veld__hulp--boven {
+  margin: calc(-1 * var(--ruimte-1)) 0 var(--ruimte-2);
+}
+/* Twee velden naast elkaar (voornaam en achternaam), als er genoeg ruimte is */
+.velden-naast {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  column-gap: var(--ruimte-3);
+}
+/* Altijd naast elkaar, ook op mobiel (maand en jaar zijn korte keuzes) */
+.velden-naast--vast {
+  grid-template-columns: 1fr 1fr;
+}
+/* Klein label boven een keuzelijst, binnen een groep met een eigen kop (legend) */
+.veld__sublabel {
+  display: block;
+  margin-bottom: var(--ruimte-1);
+  font-size: var(--tekst-klein);
+  font-weight: 600;
+}
+
+/* FOUTMELDINGEN
+   Leeg (:empty) = geen fout = niet zichtbaar. JavaScript vult de tekst in.
+   Rood én een uitroepteken: zo hangt de melding niet alleen van kleur af (WCAG). */
+.veld__fout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ruimte-2);
+  flex-basis: 100%;                /* in een rij met rondjes: op een eigen regel */
+  margin: var(--ruimte-2) 0 0;
+  color: var(--kleur-fout);
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.veld__fout:empty {
+  display: none;
+}
+.veld__fout::before {
+  content: "!";
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.05rem;
+  border-radius: 50%;
+  background: var(--kleur-fout);
+  color: var(--kleur-wit);
+  font-size: 0.8125rem;
+}
+/* Veld met een fout: rode rand. ".veld" erbij maakt de regel sterker (specifieker)
+   dan de gewone rand van de invoervelden. */
+.formulier .veld [aria-invalid="true"] {
+  border-color: var(--kleur-fout);
+}
+
+/* Invoervelden: minimaal 48px hoog, zodat ze makkelijk aan te tikken zijn op mobiel */
+.formulier input[type="text"],
+.formulier input[type="email"],
+.formulier input[type="tel"],
+.formulier input[type="month"],
+.formulier select,
+.leeftijdscheck select {
+  width: 100%;
+  min-height: 3rem;
+  padding: var(--ruimte-2) var(--ruimte-3);
+  border: 2px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  font: inherit;                  /* zelfde lettertype als de rest, browsers doen dat niet vanzelf */
+  color: var(--kleur-tekst);
+}
+.formulier input:focus-visible {
+  border-color: var(--kleur-hoofd);
+}
+
+/* Keuzerondjes en vinkjes: tekst naast het rondje, groot genoeg om aan te tikken */
+.keuze {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ruimte-3);
+  padding-block: var(--ruimte-2);
+  cursor: pointer;
+}
+/* Labels van vinkjes en rondjes: niet dikgedrukt, en tekst naast het rondje.
+   (.veld > .keuze is specifieker dan de regel voor gewone labels hierboven) */
+.veld > .keuze {
+  display: flex;
+  margin-bottom: 0;
+  font-weight: 400;
+}
+/* Rondjes naast elkaar in plaats van onder elkaar: het formulier wordt korter */
+.veld--naast {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--ruimte-5);
+}
+.keuze input {
+  flex-shrink: 0;
+  width: 1.5rem;                   /* 24px: de minimale doelgrootte van WCAG 2.2 (2.5.8) */
+  height: 1.5rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--kleur-hoofd);  /* kleurt het vinkje in de hoofdkleur */
+}
+
+.veld--privacy {
+  padding: var(--ruimte-3);
+  border-radius: var(--radius);
+  background: var(--kleur-kaart);
+}
+
+.formulier button {
+  width: 100%;
+}
+
+/* Extra ring bij een foto. ::before en ::after zijn al in gebruik,
+   daarom is dit een los (leeg) element in de HTML met aria-hidden. */
+.foto__ring {
+  position: absolute;
+  z-index: -1;
+  top: 12%;
+  right: -2.5rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 12px solid var(--kleur-opvang);
+}
+
+/* ================= FOOTER ================= */
+/* Lichte footer als afgerond paneel, net als de tijdlijn en de vragen. Een donkere footer
+   maakte de onderkant van de pagina zwaar. */
+.voet {
+  padding-block: var(--ruimte-6);
+  margin: 0 var(--paneel-marge) var(--paneel-marge);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-vlak);
+  color: var(--kleur-tekst);
+}
+.voet a {
+  color: var(--kleur-tekst);
+  font-weight: 400;
+}
+.voet a:hover {
+  color: var(--kleur-link);
+}
+.voet .veld__hulp {
+  margin-top: var(--ruimte-5);
+}
+/* Kolommen die vanzelf naast elkaar gaan staan als er ruimte is */
+.voet__kolommen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--ruimte-4);
+}
+.voet__kolommen p {
+  margin-bottom: var(--ruimte-2);
+}
+.voet__titel {
+  font-family: var(--font-kop);
+  font-weight: 700;
+  font-size: var(--tekst-basis);
+}
+
+/* Extra cirkels rechts in de hero: alleen op een groot scherm. Op mobiel staat de foto
+   boven de kaart en zijn er al cirkels genoeg. */
+.hero__cirkels {
+  display: none;
+}
+@media (min-width: 64rem) {
+  .hero__cirkels {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;          /* je kunt er gewoon "doorheen" klikken */
+  }
+  .hero__cirkels::before,
+  .hero__cirkels::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+  }
+  /* Grote groene ring, half buiten de hoek rechtsonder (over de vloer, niet over gezichten) */
+  .hero__cirkels::before {
+    width: 13rem;
+    height: 13rem;
+    right: -5.5rem;
+    bottom: -5.5rem;
+    border: 16px solid var(--kleur-school);
+  }
+  /* Roze stip rechts, tegen de muur naast de kinderen */
+  .hero__cirkels::after {
+    width: 3.5rem;
+    height: 3.5rem;
+    right: 3%;
+    top: 45%;
+    background: var(--kleur-opvang);
+  }
+}
+
+/* HEEL SMAL SCHERM (tot 360px, of 400% ingezoomd op een laptop)
+   WCAG 1.4.10 (reflow): de pagina moet op 320px breed werken zonder opzij te scrollen.
+   Logo en menuknop worden hier iets compacter, zodat ze naast elkaar passen. */
+@media (max-width: 22.5rem) {
+  .kop {
+    gap: var(--ruimte-2);
+  }
+  .logo-school {
+    font-size: var(--tekst-basis);
+  }
+  .logo-school__icoon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .kop__menuknop {
+    padding-inline: var(--ruimte-2);
+  }
+  /* Contactkaart: alleen hier komt de tekst onder de foto, anders past het label niet */
+  .contact {
+    flex-wrap: wrap;
+  }
+}
+
+/* RITME TUSSEN SECTIES
+   Tussen alle blokken moet even veel ruimte zitten (72px op mobiel, 112px op een groot scherm).
+   - Twee witte secties onder elkaar: hun ruimtes tellen op (2 x 112 = 224px leeg).
+     Daarom krijgt de tweede geen ruimte aan de bovenkant.
+   - Twee gekleurde panelen onder elkaar: daar zit juist geen ruimte tussen.
+     Daarom krijgt het tweede paneel dezelfde ruimte als marge erboven. */
+.sectie:not(.sectie--paneel) + .sectie:not(.sectie--paneel) {
+  padding-top: 0;
+}
+.sectie--paneel + .sectie--paneel {
+  margin-top: var(--ruimte-7);
+}
+@media (min-width: 48rem) {
+  .sectie--paneel + .sectie--paneel {
+    margin-top: var(--ruimte-8);
+  }
+}
+
+/* ================= LEEFTIJDSCHECK ================= */
+/* Een witte kaart onder de tijdlijn. Links de keuze, rechts de uitkomst (op een groot scherm). */
+.leeftijdscheck {
+  display: grid;
+  gap: var(--ruimte-4);
+  margin-top: var(--ruimte-5);
+  padding: var(--ruimte-4);
+  background: var(--kleur-kaart);
+  border-radius: var(--radius-groot);
+}
+.leeftijdscheck[hidden] {
+  display: none;                   /* "display: grid" hierboven zou hidden anders overrulen */
+}
+.leeftijdscheck h3 {
+  margin-bottom: var(--ruimte-2);
+}
+.leeftijdscheck .veld__hulp {
+  margin-bottom: 0;
+}
+.leeftijdscheck__uitkomst {
+  padding: var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-tint-roze);
+}
+.leeftijdscheck__uitkomst > p {
+  margin: 0;
+  color: var(--kleur-tekst-zacht);
+}
+.leeftijdscheck__lijst {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* Elke stap op een eigen regel: de naam links, de datum rechts */
+.leeftijdscheck__lijst li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: var(--ruimte-3);
+  padding-block: var(--ruimte-2);
+  border-bottom: 1px solid rgb(43 39 53 / 0.08);
+}
+.leeftijdscheck__lijst li:last-child {
+  border-bottom: 0;
+}
+.leeftijdscheck__lijst strong {
+  font-family: var(--font-kop);
+}
+/* Kennismaken krijgt de nadruk, net als in de tijdlijn */
+.leeftijdscheck__lijst .is-belangrijk span {
+  font-weight: 700;
+  color: var(--kleur-school-tekst);
+}
+
+/* ================= GEZICHTEN EN ERVARINGEN ================= */
+.ervaringen {
+  display: grid;
+  gap: var(--ruimte-3);
+  margin-top: var(--ruimte-4);
+}
+.ervaring {
+  margin: 0;
+  padding: var(--ruimte-5);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-vlak);
+}
+/* De quotes van ouders op een heel lichte tint: om en om roze en groen */
+.ervaring--roze { background: var(--kleur-tint-roze); }
+.ervaring--groen { background: var(--kleur-tint-groen); }
+
+.ervaring blockquote {
+  margin: 0 0 var(--ruimte-3);
+}
+.ervaring blockquote p {
+  margin: 0;
+}
+/* Een groot aanhalingsteken, alleen decoratief (staat in de CSS, niet in de tekst) */
+.ervaring blockquote::before {
+  content: "\201C";                /* de code voor het teken “ */
+  display: block;
+  height: 2.25rem;
+  font-family: var(--font-kop);
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--kleur-opvang);
+}
+.ervaring--groen blockquote::before,
+.ervaring--juf blockquote::before {
+  color: var(--kleur-school);
+}
+.ervaring figcaption {
+  font-size: var(--tekst-klein);
+  color: var(--kleur-tekst-zacht);
+}
+.ervaring figcaption strong {
+  color: var(--kleur-tekst);
+}
+
+/* De juf: met foto, en de quote iets groter */
+.ervaring--juf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ruimte-4);
+}
+.ervaring__foto {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ervaring--juf .label {
+  margin-bottom: var(--ruimte-3);
+}
+.ervaring--juf blockquote p {
+  font-size: var(--tekst-groot);
+  line-height: 1.55;
+}
+
+/* ================= VERGELIJK GERUST ================= */
+#vergelijken {
+  background: var(--kleur-tint-groen);
+}
+.bronnen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--ruimte-3);
+}
+.bronnen p {
+  margin: var(--ruimte-1) 0 0;
+  font-size: 0.9375rem;
+  color: var(--kleur-tekst-zacht);
+}
+/* De checklist in een witte kaart */
+.checklist-kaart {
+  padding: var(--ruimte-4);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-kaart);
+}
+.checklist {
+  list-style: none;
+  margin: 0 0 var(--ruimte-4);
+  padding: 0;
+}
+.checklist li {
+  position: relative;
+  padding: var(--ruimte-2) 0 var(--ruimte-2) 2.25rem;
+  border-bottom: 1px solid rgb(43 39 53 / 0.08);
+}
+/* Een leeg vakje voor elke vraag, om af te vinken. Om en om groen en roze. */
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--kleur-school);
+  border-radius: 0.375rem;
+}
+.checklist li:nth-child(even)::before {
+  border-color: var(--kleur-opvang);
+}
+/* Cirkels: zachtgroene cirkel linksonder, roze stip rechtsboven */
+.deco--bewust::before {
+  width: 14rem;
+  height: 14rem;
+  bottom: -6rem;
+  left: -5rem;
+  background: var(--kleur-school-licht);
+}
+.deco--bewust::after {
+  width: 2.5rem;
+  height: 2.5rem;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: var(--kleur-opvang);
+}
+
+/* Onder de veelgestelde vragen: een uitweg als je vraag er niet bij staat */
+.faq__meer {
+  margin: var(--ruimte-4) 0 0;
+}
+
+/* ================= HERINNERING ================= */
+/* Onder het kennismakingsformulier: een lichter, kleiner alternatief op een roze tint */
+.herinnering {
+  margin-top: var(--ruimte-4);
+  padding: var(--ruimte-4);
+  border-radius: var(--radius-groot);
+  background: var(--kleur-tint-roze);
+}
+.herinnering h3 {
+  margin-bottom: var(--ruimte-2);
+}
+/* Het formulier zelf hoeft hier geen eigen vlak: dat is de roze kaart al.
+   (.herinnering .formulier is specifieker dan .formulier, dus deze regel wint.) */
+.herinnering .formulier {
+  margin-top: var(--ruimte-4);
+  padding: 0;
+  background: none;
+}
+.herinnering__klaar {
+  margin-top: var(--ruimte-4);
+  padding: var(--ruimte-4);
+  border-radius: var(--radius);
+  background: var(--kleur-kaart);
+}
+.herinnering__klaar p {
+  margin: 0;
+}
+/* De focus gaat hierheen zodat een schermlezer de tekst voorleest. Het is geen knop of link,
+   dus een focusrand is niet nodig. */
+.herinnering__klaar:focus {
+  outline: none;
+}
+
+/* ================= CONTACT: VRAAG STELLEN ================= */
+.contact__intro {
+  margin-bottom: 0;
+  color: var(--kleur-tekst-zacht);
+}
+/* Tekst die nooit over twee regels breekt */
+.geen-afbreking {
+  white-space: nowrap;
+}
+/* Telefoon, WhatsApp en mail naast elkaar, en onder elkaar als het niet past */
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ruimte-1) var(--ruimte-4);
+}
+
+/* Groter scherm: de nieuwe onderdelen naast elkaar */
+@media (min-width: 48rem) {
+  .ervaringen {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* Juf over de hele breedte, foto naast de quote */
+  .ervaring--juf {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--ruimte-5);
+  }
+  .ervaring__foto {
+    width: 10rem;
+    height: 10rem;
+    flex-shrink: 0;
+  }
+  .split--boven {
+    align-items: start;
+  }
+  .checklist-kaart,
+  .herinnering {
+    padding: var(--ruimte-5);
+  }
+}
+@media (min-width: 64rem) {
+  .leeftijdscheck {
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--ruimte-6);
+    align-items: start;
+    padding: var(--ruimte-5);
+  }
+  /* De juf links (over twee rijen), de twee ouders rechts onder elkaar */
+  .ervaringen {
+    grid-template-columns: 1.3fr 1fr;
+  }
+  .ervaring--juf {
+    grid-column: 1;
+    grid-row: span 2;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ================= STICKY KNOP (mobiel) ================= */
+/* Vast onderin het scherm. Standaard verborgen: hij staat alleen aan met JavaScript
+   en alleen op mobiel. Vanaf 48rem staat de knop al in de navigatiebalk. */
+.sticky-cta {
+  display: none;
+}
+@media (max-width: 47.99rem) {
+  .js .sticky-cta {
+    display: block;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* env(safe-area-inset-bottom): extra ruimte boven de "thuisbalk" van een iPhone */
+    padding: var(--ruimte-3) 1.25rem calc(var(--ruimte-3) + env(safe-area-inset-bottom));
+    background: var(--kleur-kaart);
+    box-shadow: 0 -4px 16px rgb(43 39 53 / 0.08);
+    /* Verstopt onder de rand van het scherm. visibility: hidden zorgt dat je er
+       met de Tab-toets niet op terechtkomt zolang hij niet te zien is. */
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+  .js .sticky-cta--zichtbaar {
+    transform: none;
+    visibility: visible;
+  }
+  .sticky-cta .knop {
+    display: block;
+    text-align: center;
+  }
+  /* Ruimte onder de footer, zodat de sticky knop niets afdekt */
+  .js .voet {
+    margin-bottom: 6rem;
+  }
+  /* WCAG 2.4.11 (focus niet verborgen): als je met Tab naar een link of veld gaat, scrolt de
+     browser die in beeld. scroll-padding houdt onderin ruimte vrij, zodat de focus nooit
+     achter de sticky knop valt. */
+  .js {
+    scroll-padding-bottom: 6rem;
+  }
+}
+/* Schuift rustig in beeld, behalve als iemand minder beweging wil */
+@media (prefers-reduced-motion: no-preference) {
+  .sticky-cta {
+    transition: transform 0.25s ease, visibility 0.25s;
+  }
+}
+
+/* ================= BEDANKPAGINA ================= */
+.bedankt ol {
+  max-width: var(--breedte-tekst);
+  padding-left: var(--ruimte-4);
+  margin-bottom: var(--ruimte-4);
+}
+.bedankt li {
+  margin-bottom: var(--ruimte-2);
+}
+.bedankt__foto {
+  max-width: 36rem;
+  margin-top: var(--ruimte-6);
+}
+
+/* =====================================================
+   GROTER SCHERM (vanaf 48rem = 768px, ongeveer een tablet)
+   ===================================================== */
+@media (min-width: 48rem) {
+
+  .sectie {
+    padding-block: var(--ruimte-8);
+  }
+
+  /* De navigatiebalk blijft bovenaan staan tijdens het scrollen */
+  .kop {
+    position: sticky;
+    top: 0;
+  }
+  .kop .knop {
+    display: inline-block;
+  }
+  /* Bij het springen naar een sectie: ruimte laten voor de vaste balk */
+  html {
+    scroll-padding-top: 5.5rem;
+  }
+
+  /* Cirkels op een groot scherm verder de ruimte in (op mobiel zaten ze over tekst) */
+  .deco--hero::after {
+    bottom: 1.5rem;
+  }
+  .deco--tijdlijn::after {
+    top: 3rem;
+    right: 12%;
+  }
+  .deco--vragen::after {
+    top: 5rem;
+    right: 22%;
+  }
+
+  /* Hero in twee kolommen: tekst links, grote foto rechts */
+  .hero {
+    grid-template-columns: 1fr 1.35fr;
+    gap: var(--ruimte-6);
+    align-items: center;
+    padding-block: var(--ruimte-6) var(--ruimte-7);
+  }
+  .hero__foto {
+    order: 0;
+  }
+  .hero__foto img {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* Hero-variant op een tablet: nog steeds foto boven, kaart eronder (de tablet-regels van
+     de gewone hero hierboven gelden hier niet) */
+  .hero--vol {
+    grid-template-columns: 1fr;    /* volle breedte, anders klopt de 100vw-berekening van de foto niet */
+    padding-block: 0 var(--ruimte-7);
+  }
+  .hero--vol .hero__foto {
+    order: -1;
+  }
+  .hero--vol .hero__foto img {
+    aspect-ratio: 16 / 9;
+  }
+  .hero--vol .hero__tekst {
+    max-width: 40rem;
+    margin-top: -2.5rem;
+    padding: var(--ruimte-5);
+  }
+  .hero--vol .hero__intro {
+    font-size: var(--tekst-groot);
+  }
+
+  /* Split: twee kolommen. Bij --omgekeerd staat de foto links. */
+  .split {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ruimte-6);
+  }
+  .split--omgekeerd > .foto {
+    order: -1;                     /* zet de foto als eerste, zonder de HTML-volgorde te veranderen */
+  }
+  /* Tekst en kenmerken in het midden naast de foto */
+  .split--onder {
+    align-items: center;
+  }
+  .split--onder > .foto {
+    order: 0;                      /* op een groot scherm weer rechts */
+  }
+
+  /* Formulier en foto even breed. De foto blijft in beeld staan terwijl je het formulier invult. */
+  .split--formulier {
+    align-items: start;
+  }
+  .split--formulier .foto {
+    position: sticky;
+    top: 7rem;
+    margin-top: var(--ruimte-7);
+  }
+  .split--formulier .foto img {
+    aspect-ratio: 3 / 4;
+  }
+
+  .formulier {
+    padding: var(--ruimte-5);
+  }
+  .contact {
+    gap: var(--ruimte-4);
+  }
+  .contact__foto {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+  .formulier button {
+    width: auto;
+  }
+}
+
+/* Navigatielinks pas tonen als er echt ruimte voor is (vanaf 64rem = 1024px) */
+@media (min-width: 64rem) {
+  .kop__nav {
+    display: block;
+  }
+  .kop .knop {
+    margin-left: var(--ruimte-4);  /* extra ruimte tussen het menu en de knop */
+  }
+
+  /* Hero-variant op een groot scherm: de foto is de achtergrond van de hele hero,
+     met de kaart er links bovenop.
+     - min-height: de hero is zo hoog als het scherm min de header en het kruimelpad (± 8.5rem),
+       maar nooit hoger dan 46rem. Zo zie je titel en knop direct, zonder te scrollen.
+     - position: absolute + inset: 0 laat de foto de hele hero vullen. */
+  .hero--vol {
+    align-content: center;
+    min-height: min(46rem, calc(100vh - 8.5rem));
+    padding-block: var(--ruimte-6);
+    margin-top: var(--ruimte-3);
+  }
+  .hero--vol .hero__foto {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: auto;
+    margin: 0;
+    overflow: hidden;              /* het deel van de foto dat buiten de hero valt, wordt afgeknipt */
+  }
+  /* De foto vult de hele hero. De foto is ongeveer 2:1, bijna net zo breed als de hero zelf.
+     Op brede schermen valt er boven en onder iets weg. 45% van boven: de kinderen achter de kaart
+     vallen er helemaal achter (er steekt geen voorhoofd boven de kaart uit), en de hoofden van
+     de kinderen rechts blijven volledig zichtbaar. */
+  .hero--vol .hero__foto img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: center 45%;
+  }
+
+  /* Vanaf 1440px breed viel het meisje links half achter de kaart. De foto wordt hier 115% breed
+     en rechts verankerd (margin-left: -15%). Zo schuift zij links naast de kaart en staat ze
+     helemaal in beeld. Rechts valt alleen wat muur weg. */
+  @media (min-width: 90rem) {
+    .hero--vol .hero__foto img {
+      width: 115%;
+      max-width: none;
+      margin-left: -15%;
+    }
+  }
+  /* Extra brede schermen (vanaf ongeveer 2240px): de kaart staat hier verder naar rechts.
+     Zonder verschuiving staat het meisje links al naast de kaart, en vallen de kinderen
+     in het midden er helemaal achter. */
+  @media (min-width: 140rem) {
+    .hero--vol .hero__foto img {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  /* Breed genoeg om beide knoppen naast elkaar te zetten */
+  .hero--vol .hero__tekst {
+    max-width: 39rem;
+    margin-top: 0;
+  }
+  /* Ring en stip bovenin, bij het plafond: daar zitten geen gezichten.
+     De ring valt half over de rand van de hero en wordt daar afgeknipt. */
+  .hero--vol.deco::before {
+    width: 9rem;
+    height: 9rem;
+    top: -3.5rem;
+    right: 6%;
+    border-width: 16px;
+  }
+  .hero--vol.deco::after {
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 1.25rem;
+    bottom: auto;
+    right: 38%;
+    left: auto;
+  }
+
+  /* Tijdlijn horizontaal: vijf kolommen naast elkaar, met de lijn bovenaan.
+     Zo wordt de hele breedte gebruikt in plaats van alleen de linkerhelft. */
+  .tijdlijn {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--ruimte-4);
+    margin-top: var(--ruimte-6);
+  }
+  .tijdlijn__stap,
+  .tijdlijn__stap:last-child {
+    margin: 0;
+    padding: var(--ruimte-5) 0 0;
+    border-left: 0;
+    border-top: 3px solid var(--kleur-lijn);
+  }
+  .tijdlijn__stap::before {
+    left: 0;
+    top: calc(-0.6rem - 1.5px);
+  }
+  .tijdlijn__stap--belangrijk {
+    margin: 0;
+  }
+  .tijdlijn__stap--belangrijk::after {
+    inset: var(--ruimte-3) calc(-1 * var(--ruimte-3)) calc(-1 * var(--ruimte-3));
+  }
+}

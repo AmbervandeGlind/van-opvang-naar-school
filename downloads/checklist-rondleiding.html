@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Checklist: vragen voor tijdens de rondleiding</title>
+  <!-- Deze pagina is de bron van checklist-rondleiding.pdf.
+       Aangepast? Maak de PDF opnieuw met Chrome: Afdrukken > Opslaan als PDF.
+       Bewust zonder de foto's en het menu van de website: alleen wat je op papier nodig hebt. -->
+  <!-- Eigen lettertypes (geen Google Fonts, zie ../css/fonts.css) -->
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <style>
+    @page { size: A4; margin: 18mm 20mm; }
+    body {
+      margin: 0;
+      font-family: var(--font-tekst);
+      font-size: 11.5pt;
+      line-height: 1.5;
+      color: var(--kleur-tekst);
+    }
+    h1, h2 { font-family: var(--font-kop); line-height: 1.2; }
+    h1 { font-size: 24pt; margin: 0 0 6pt; }
+    .afzender { font-family: var(--font-kop); font-weight: 800; color: var(--kleur-school-tekst); margin: 0 0 18pt; }
+    .lijn {
+      width: 3.5rem; height: 0.3rem; border-radius: 999px; margin-bottom: 12pt;
+      background: linear-gradient(to right, var(--kleur-opvang) 35%, var(--kleur-school) 65%);
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .intro { margin: 0 0 18pt; color: var(--kleur-tekst-zacht); }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-family: var(--font-kop); font-size: 10pt; padding: 0 0 6pt; color: var(--kleur-tekst-zacht); }
+    td { padding: 9pt 0; border-top: 1px solid var(--kleur-lijn); vertical-align: top; }
+    .vakje { width: 9mm; }
+    .vakje span {
+      display: block; width: 4.5mm; height: 4.5mm; border: 1.5pt solid var(--kleur-school); border-radius: 1.2mm;
+    }
+    tr:nth-child(even) .vakje span { border-color: var(--kleur-opvang); }
+    .notitie { width: 45%; border-left: 1px solid var(--kleur-lijn); }
+    .voet { margin-top: 24pt; font-size: 9.5pt; color: var(--kleur-tekst-zacht); }
+  </style>
+</head>
+<body>
+  <div class="lijn"></div>
+  <h1>Vragen voor tijdens de rondleiding</h1>
+  <p class="afzender">Basisschool De Boomgaard &amp; Kinderopvang Pluk</p>
+  <p class="intro">Neem deze lijst mee naar elke school die je bekijkt. Zo kun je de scholen
+    eerlijk met elkaar vergelijken. Schrijf je antwoorden in de kolom rechts.</p>
+
+  <table>
+    <thead><tr><th></th><th>Vraag</th><th class="notitie">&nbsp;&nbsp;Wat hoorde ik?</th></tr></thead>
+    <tbody>
+      <tr><td class="vakje"><span></span></td><td>Hoe ziet een gewone dag in groep 1 eruit?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Hoe groot is de groep, en wie staat er voor de klas?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Hoe helpen jullie een kind dat het spannend vindt?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Hoe gaat het wennen?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Hoe volgen jullie wat mijn kind leert?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Hoe vaak praten jullie met ouders?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Wat doen jullie als mijn kind extra hulp nodig heeft?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Is er opvang voor en na school?</td><td class="notitie"></td></tr>
+      <tr><td class="vakje"><span></span></td><td>Eigen vraag:</td><td class="notitie"></td></tr>
+    </tbody>
+  </table>
+
+  <p class="voet">Tip: vergelijk scholen ook op scholenopdekaart.nl en onderwijsinspectie.nl.<br>
+    Fictieve organisaties, gemaakt voor een assessment.</p>
+</body>
+</html>

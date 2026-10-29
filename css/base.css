@@ -1,0 +1,157 @@
+/*
+  BASISSTIJLEN
+  ------------
+  Hoe "kale" HTML-elementen eruitzien: tekst, koppen, links en knoppen.
+  Alles gebruikt de tokens uit tokens.css.
+*/
+
+/* box-sizing zorgt dat padding binnen de opgegeven breedte valt.
+   Dat rekent veel makkelijker. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--kleur-achtergrond);
+  color: var(--kleur-tekst);
+  font-family: var(--font-tekst);
+  font-size: var(--tekst-basis);
+  line-height: var(--regelhoogte-tekst);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-kop);
+  font-weight: 700;
+  line-height: var(--regelhoogte-kop);
+  margin: 0 0 var(--ruimte-3);
+}
+h1 { font-size: var(--kop-1); }
+h2 { font-size: var(--kop-2); }
+h3 { font-size: var(--kop-3); }
+
+p {
+  margin: 0 0 var(--ruimte-3);
+  max-width: var(--breedte-tekst);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--kleur-link);
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+a:hover {
+  color: var(--kleur-link-hover);
+}
+
+/* Link naar een andere pagina: krijgt een pijltje dat bij hover een stukje opschuift */
+.link-pijl::after {
+  content: "→";
+  display: inline-block;
+  margin-left: 0.35em;
+  transition: transform 0.15s ease;
+}
+.link-pijl:hover::after {
+  transform: translateX(0.25em);
+}
+
+/* Zichtbare focus voor toetsenbordgebruikers (WCAG-eis).
+   :focus-visible toont de rand alleen bij toetsenbord, niet bij een muisklik. */
+:focus-visible {
+  outline: 3px solid var(--kleur-hoofd);
+  outline-offset: 3px;
+}
+
+/* ---------- KNOPPEN ---------- */
+
+.knop {
+  display: inline-block;
+  padding: 0.85rem 1.6rem;
+  border: 2px solid var(--kleur-knop);
+  border-radius: var(--radius-rond);
+  background: var(--kleur-knop);
+  color: var(--kleur-wit);
+  font-family: var(--font-kop);
+  font-size: var(--tekst-basis);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.knop:hover {
+  background: var(--kleur-knop-hover);
+  border-color: var(--kleur-knop-hover);
+  color: var(--kleur-wit);
+}
+
+/* Secundaire knop: zelfde vorm, maar rustiger. Voor de minder belangrijke acties. */
+.knop--secundair {
+  border-color: var(--kleur-hoofd);
+  background: transparent;
+  color: var(--kleur-hoofd);
+}
+.knop--secundair:hover {
+  border-color: var(--kleur-hoofd);
+  background: var(--kleur-hoofd-licht);
+  color: var(--kleur-hoofd-donker);
+}
+
+/* ---------- LABELS ---------- */
+/* Kleine labels die laten zien over welke organisatie iets gaat */
+
+.label {
+  display: inline-block;
+  padding: var(--ruimte-1) var(--ruimte-3);
+  border-radius: var(--radius-rond);
+  font-size: var(--tekst-klein);
+  font-weight: 700;
+  white-space: nowrap;             /* een label breekt nooit af over twee regels */
+}
+.label--opvang { background: var(--kleur-opvang-licht); color: var(--kleur-opvang-tekst); }
+.label--school { background: var(--kleur-school-licht); color: var(--kleur-school-tekst); }
+
+/* ---------- DUO-LOGO ---------- */
+/* Twee bestaande "logo's" naast elkaar, elk in de eigen huisstijlkleur.
+   Dit laat zien dat twee organisaties samen de afzender zijn. */
+.duo-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ruimte-2);
+  font-family: var(--font-kop);
+  font-weight: 800;
+  font-size: var(--tekst-basis);
+  white-space: nowrap;             /* een logo breekt nooit af over twee regels */
+  text-decoration: none;
+  color: var(--kleur-tekst);
+}
+@media (min-width: 48rem) {
+  .duo-logo { font-size: var(--tekst-groot); }
+}
+.duo-logo__opvang { color: var(--kleur-opvang-tekst); }
+.duo-logo__school { color: var(--kleur-school-tekst); }
+.duo-logo__en {
+  color: var(--kleur-tekst-zacht);
+  font-weight: 600;
+}
+
+/* ---------- DUO-LIJN ---------- */
+/* Een klein decoratief lijntje dat van roze naar groen overloopt:
+   de twee huisstijlen die in elkaar overgaan. Staat boven elke kop. */
+.duo-lijn {
+  display: block;
+  width: 4rem;
+  height: 0.35rem;
+  border-radius: var(--radius-rond);
+  /* Een korte overgang in het midden (35% - 65%). Bij een lange overgang mengen roze en groen
+     tot een bruinige kleur; zo blijven beide kleuren helder. */
+  background: linear-gradient(to right, var(--kleur-opvang) 35%, var(--kleur-school) 65%);
+  margin-bottom: var(--ruimte-3);
+}
+.label--samen  { background: var(--kleur-hoofd-licht); color: var(--kleur-hoofd-donker); }
